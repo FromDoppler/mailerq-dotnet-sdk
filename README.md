@@ -1,2 +1,2 @@
-# mailerq-net-api
-.NET API to access MailerQ RabbitMQ queues
+# mailerq-dotnet-sdk
+.NET SDK for interact with MailerQ

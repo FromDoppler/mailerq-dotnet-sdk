@@ -6,8 +6,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Making Sense</Authors>
     <Company>Making Sense</Company>
-    <Description>MailerQ .Net Client library</Description>
+    <Description>MailerQ .Net SDK</Description>
     <PackageId>MailerQ</PackageId>
+    <Product>MailerQ .Net SDK</Product>
   </PropertyGroup>
 
   <ItemGroup>
