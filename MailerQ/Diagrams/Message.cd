@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MailerQ.OutgoingMessage" Collapsed="true">
+    <Position X="7.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAIAAAAAEAwCSEAAEAAAAAaAAkDFAAAAAAAACIAAA=</HashCode>
+      <FileName>OutgoingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.IncomingMessage" Collapsed="true">
+    <Position X="11.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAgBAAAAAAECAAAAAAAAAAAAAEAEACAAAAAABAA=</HashCode>
+      <FileName>IncomingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.ReportMessage" Collapsed="true">
+    <Position X="11.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IncomingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.DSNMessage" Collapsed="true">
+    <Position X="9.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IncomingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.LocalMessage" Collapsed="true">
+    <Position X="14" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IncomingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.ResultMessage" Collapsed="true">
+    <Position X="4" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.SuccessMessage" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.FailureMessage" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.RetryMessage" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.RefusedMessage" Collapsed="true">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResultMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.Message" Collapsed="true">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MailerQ.Conventions.QueueName">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAACAAAAAAAABAAAAAAAAACgBIAACABAAAAACAAAA=</HashCode>
+      <FileName>Conventions\QueueName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
