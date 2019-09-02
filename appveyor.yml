@@ -1,0 +1,8 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+before_build:
+ - cmd: nuget restore MailerQ.sln
+build:
+  verbosity: minimal
+artifacts:
+ - path: '**\*.nupkg'
