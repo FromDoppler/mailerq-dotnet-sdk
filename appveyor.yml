@@ -1,5 +1,21 @@
-version: 1.0.0.{build}
+version: 1.0.0-dev-{build}
 image: Visual Studio 2019
+init:
+- ps: >-
+    if ($env:APPVEYOR_REPO_TAG -eq "true")
+
+    {
+        Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
+    }
+
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 nuget:
   account_feed: true
   project_feed: true
