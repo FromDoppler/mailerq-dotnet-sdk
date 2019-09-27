@@ -42,16 +42,16 @@ namespace MailerQ
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
         }
 
-        public void Subscribe<T>(Action<T> action) where T : OutgoingMessage
+        public IDisposable Subscribe<T>(Action<T> action) where T : OutgoingMessage
         {
             string queueName = GetQueueName<T>();
-            Subscribe(action, queueName);
+            return Subscribe(action, queueName);
         }
 
-        public void Subscribe<T>(Action<T> action, string queueName) where T : OutgoingMessage
+        public IDisposable Subscribe<T>(Action<T> action, string queueName) where T : OutgoingMessage
         {
             var queue = bus.QueueDeclare(queueName);
-            bus.Consume(queue, (body, properties, info) =>
+            return bus.Consume(queue, (body, properties, info) =>
             {
                 string jsonMessage = Encoding.UTF8.GetString(body);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
@@ -59,16 +59,16 @@ namespace MailerQ
             });
         }
 
-        public void SubscribeAsync<T>(Func<T, Task> action) where T : OutgoingMessage
+        public IDisposable SubscribeAsync<T>(Func<T, Task> action) where T : OutgoingMessage
         {
             string queueName = GetQueueName<T>();
-            SubscribeAsync(action, queueName);
+            return SubscribeAsync(action, queueName);
         }
 
-        public void SubscribeAsync<T>(Func<T, Task> action, string queueName) where T : OutgoingMessage
+        public IDisposable SubscribeAsync<T>(Func<T, Task> action, string queueName) where T : OutgoingMessage
         {
             var queue = bus.QueueDeclare(queueName);
-            bus.Consume(queue, (body, properties, info) => Task.Factory.StartNew(() =>
+            return bus.Consume(queue, (body, properties, info) => Task.Factory.StartNew(() =>
             {
                 string jsonMessage = Encoding.UTF8.GetString(body);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
