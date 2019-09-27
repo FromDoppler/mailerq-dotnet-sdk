@@ -1,15 +1,18 @@
 version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: true
+branches:
+  only:
+  - master
 image: Visual Studio 2019
-before_build:
- - cmd: nuget restore MailerQ.sln
+artifacts:
+ - path: '**\*.nupkg'
 nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
+before_build:
+ - cmd: nuget restore MailerQ.sln
 build:
   publish_nuget: true
   verbosity: minimal
-artifacts:
- - path: '**\*.nupkg'
