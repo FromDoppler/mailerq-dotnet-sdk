@@ -9,6 +9,7 @@
     <Description>MailerQ .Net SDK</Description>
     <PackageId>MailerQ</PackageId>
     <Product>MailerQ .Net SDK</Product>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
