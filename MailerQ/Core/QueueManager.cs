@@ -68,12 +68,12 @@ namespace MailerQ
         public IDisposable SubscribeAsync<T>(Func<T, Task> action, string queueName) where T : OutgoingMessage
         {
             var queue = bus.QueueDeclare(queueName);
-            return bus.Consume(queue, (body, properties, info) => Task.Factory.StartNew(() =>
+            return bus.Consume(queue, async (body, properties, info) =>
             {
                 string jsonMessage = Encoding.UTF8.GetString(body);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
-                action.Invoke(resultMessage);
-            }));
+                await action.Invoke(resultMessage);
+            });
         }
 
         string GetQueueName<T>()
