@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using EasyNetQ.Topology;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Text;
@@ -17,6 +18,8 @@ namespace MailerQ
             this.configuration = configuration;
             bus = RabbitHutch.CreateBus(configuration.RabbitConnectionString).Advanced;
         }
+
+        public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
         public void Publish(OutgoingMessage message)
         {
