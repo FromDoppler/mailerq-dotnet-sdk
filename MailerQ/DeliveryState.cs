@@ -89,6 +89,10 @@
         /// <summary>
         /// The full mime data followed by a dot has been sent
         /// </summary>
-        Message
+        Message,
+        /// <summary>
+        /// Email was loaded in an event loop that never becomes idle
+        /// </summary>
+        Idle,
     }
 }
