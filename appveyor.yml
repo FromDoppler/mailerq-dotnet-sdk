@@ -25,3 +25,11 @@ before_build:
 build:
   publish_nuget: true
   verbosity: minimal
+deploy:
+- provider: NuGet
+  server: https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package
+  api_key:
+    secure: O7LuhcN8edhxdZsDeEOaGfr03hOutgdNGFweGZCUfKw=
+  skip_symbols: true
+  on:
+    APPVEYOR_REPO_TAG: true
