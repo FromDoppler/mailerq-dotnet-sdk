@@ -117,7 +117,7 @@ namespace MailerQ.Mime
         /// </summary>
         public object Data { get; set; }
 
-    #endregion
+        #endregion
 
     }
 }

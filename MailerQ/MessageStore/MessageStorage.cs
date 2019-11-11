@@ -13,7 +13,7 @@ namespace MailerQ.MessageStore
         public MessageStorage(IOptions<MailerQConfiguration> options)
         {
             var uri = options.Value.MessageStorageUrl;
-            int schemeSeparatorIndex = uri.IndexOf(@"://");
+            var schemeSeparatorIndex = uri.IndexOf(@"://");
             if (schemeSeparatorIndex <= 0)
             {
                 throw new ArgumentException($"{nameof(MailerQConfiguration.MessageStorageUrl)} has invalid value");
