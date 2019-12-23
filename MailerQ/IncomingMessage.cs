@@ -23,12 +23,6 @@ namespace MailerQ
         public DateTime Received { get; set; }
 
         /// <summary>
-        /// Unique message id generated for the mail (only used when received via smtp)
-        /// </summary>
-        [JsonProperty("message-id")]
-        public string MessageId { get; set; }
-
-        /// <summary>
         /// Connection info (only used when received via smtp)
         /// </summary>
         public ConnectionInfo Connection { get; set; }
