@@ -13,6 +13,12 @@ namespace MailerQ
     public class OutgoingMessage : Message
     {
         /// <summary>
+        /// Unique message id generated for the mail
+        /// </summary>
+        [JsonProperty("message-id")]
+        public string MessageId { get; set; }
+
+        /// <summary>
         /// Envelope("MAIL FROM") address
         /// </summary>
         public string Envelope { get; set; }
