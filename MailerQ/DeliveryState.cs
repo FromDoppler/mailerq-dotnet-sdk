@@ -94,5 +94,9 @@
         /// Email was loaded in an event loop that never becomes idle
         /// </summary>
         Idle,
+        /// <summary>
+        /// Email was modified by a rewrite rule
+        /// </summary>
+        Rewrite,
     }
 }
