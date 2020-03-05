@@ -1,4 +1,4 @@
-version: 1.0.0-dev-{build}
+version: dev-{build}
 image: Visual Studio 2019
 init:
 - ps: >-
