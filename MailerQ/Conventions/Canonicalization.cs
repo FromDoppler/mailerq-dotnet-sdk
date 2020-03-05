@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MailerQ.Conventions
+﻿namespace MailerQ.Conventions
 {
     public static class Canonicalization
     {

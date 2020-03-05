@@ -7,7 +7,7 @@ namespace MailerQ.MessageStore.Test
 {
     public class MessageStorageTest
     {
-        const string SimpleValidMongoUri = "mongodb://server/database";
+        private const string SimpleValidMongoUri = "mongodb://server/database";
 
         public static IOptions<MailerQConfiguration> CreateOptions(string uri)
         {
@@ -88,13 +88,13 @@ namespace MailerQ.MessageStore.Test
         public async Task InsertAsync_should_throw_an_exception_using_mongodb_with_messages_larger_than_fifteen_megabytes()
         {
             // Arrange
-            int size = 15728640; // 15 MB
-            string message = new string('*', size);
+            var size = 15728640; // 15 MB
+            var message = new string('*', size);
 
             var options = CreateOptions(SimpleValidMongoUri);
             var sut = new MessageStorage(options);
 
-            string expected = $"Message is to big, split is not suppported yet. Size should be less than {size} bytes.";
+            var expected = $"Message is to big, split is not suppported yet. Size should be less than {size} bytes.";
 
             // Act
             var exception = await Assert.ThrowsAsync<NotSupportedException>(() => sut.InsertAsync(message));

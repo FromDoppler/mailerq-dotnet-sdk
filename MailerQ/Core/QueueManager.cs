@@ -10,8 +10,8 @@ namespace MailerQ
 {
     public class QueueManager : IQueueManager
     {
-        readonly IAdvancedBus bus;
-        readonly MailerQConfiguration configuration;
+        private readonly IAdvancedBus bus;
+        private readonly MailerQConfiguration configuration;
 
         public QueueManager(MailerQConfiguration configuration)
         {
@@ -47,7 +47,7 @@ namespace MailerQ
 
         public IDisposable Subscribe<T>(Action<T> action) where T : OutgoingMessage
         {
-            string queueName = GetQueueName<T>();
+            var queueName = GetQueueName<T>();
             return Subscribe(action, queueName);
         }
 
@@ -56,7 +56,7 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, (body, properties, info) =>
             {
-                string jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 action.Invoke(resultMessage);
             });
@@ -64,7 +64,7 @@ namespace MailerQ
 
         public IDisposable SubscribeAsync<T>(Func<T, Task> action) where T : OutgoingMessage
         {
-            string queueName = GetQueueName<T>();
+            var queueName = GetQueueName<T>();
             return SubscribeAsync(action, queueName);
         }
 
@@ -73,15 +73,15 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, async (body, properties, info) =>
             {
-                string jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 await action.Invoke(resultMessage);
             });
         }
 
-        string GetQueueName<T>()
+        private string GetQueueName<T>()
         {
-            string queueName = typeof(T).GetAttribute<QueueAttribute>().QueueName;
+            var queueName = typeof(T).GetAttribute<QueueAttribute>().QueueName;
             return $"{configuration.QueuesNamePrefix}{queueName}";
         }
 

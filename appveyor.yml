@@ -1,35 +1,35 @@
 version: 1.0.0-dev-{build}
 image: Visual Studio 2019
 init:
-- ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
+  - ps: >-
+      if ($env:APPVEYOR_REPO_TAG -eq "true")
 
-    {
-        Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
-    }
+      {
+          Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.TrimStart("v"))"
+      }
 
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+  version: "{version}"
+  package_version: "{version}"
+  assembly_version: "{version}"
+  file_version: "{version}"
+  informational_version: "{version}"
 nuget:
   account_feed: true
   project_feed: true
   disable_publish_on_pr: true
 before_build:
- - cmd: nuget restore MailerQ.sln
+  - cmd: nuget restore MailerQ.sln
 build:
   publish_nuget: true
   verbosity: minimal
 deploy:
-- provider: NuGet
-  server: https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package
-  api_key:
-    secure: O7LuhcN8edhxdZsDeEOaGfr03hOutgdNGFweGZCUfKw=
-  skip_symbols: true
-  on:
-    APPVEYOR_REPO_TAG: true
+  - provider: NuGet
+    server: https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package
+    api_key:
+      secure: O7LuhcN8edhxdZsDeEOaGfr03hOutgdNGFweGZCUfKw=
+    skip_symbols: true
+    on:
+      APPVEYOR_REPO_TAG: true

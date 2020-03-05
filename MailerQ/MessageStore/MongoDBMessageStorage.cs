@@ -9,12 +9,11 @@ namespace MailerQ.MessageStore
 {
     internal class MongoDBMessageStorage : IMessageStorage
     {
-        const int MessageMaxSuppportedSize = 15728640; // 15 MB
-        const int DaysToExpire = 7;
-        const string DataBase = "mailerq";
-        readonly string Collection = "message";
-
-        readonly IMongoCollection<BsonDocument> messages;
+        private const int MessageMaxSuppportedSize = 15728640; // 15 MB
+        private const int DaysToExpire = 7;
+        private const string DataBase = "mailerq";
+        private readonly string Collection = "message";
+        private readonly IMongoCollection<BsonDocument> messages;
 
         public MongoDBMessageStorage(string url)
         {
