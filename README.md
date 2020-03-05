@@ -1,5 +1,5 @@
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=MakingSense/mailerq-dotnet-sdk)](https://dependabot.com)
-
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 # mailerq-dotnet-sdk
 
