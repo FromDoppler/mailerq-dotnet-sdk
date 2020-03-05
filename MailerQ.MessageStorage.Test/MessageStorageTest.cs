@@ -64,5 +64,42 @@ namespace MailerQ.MessageStorage.Test
             // Assert
             Assert.Contains(expected, ex.Message);
         }
+
+        const string SimpleValidMongoUri = "mongodb://server/database";
+
+        [InlineData(SimpleValidMongoUri)]
+        [InlineData("mongodb://mongos1.example.com,mongos2.example.com/?readPreference=secondary")]
+        [InlineData("mongodb://mongos1.example.com,mongos2.example.com/database?readPreference=secondary")]
+        [Theory]
+        public void Constructor_should_create_instance_with_valid_supported_engine_uri(string uri)
+        {
+            // Arrange
+            var options = CreateOptions(uri);
+
+            // Act
+            var sut = new MessageStorage(options);
+
+            // Assert
+            Assert.NotNull(sut);
+        }
+
+        [Fact]
+        public async Task InsertAsync_should_throw_an_exception_using_mongodb_with_messages_larger_than_fifteen_megabytes()
+        {
+            // Arrange
+            int size = 15728640; // 15 MB
+            string message = new string('*', size);
+
+            var options = CreateOptions(SimpleValidMongoUri);
+            var sut = new MessageStorage(options);
+
+            string expected = $"Message is to big, split is not suppported yet. Size should be less than {size} bytes.";
+
+            // Act
+            var exception = await Assert.ThrowsAsync<NotSupportedException>(() => sut.InsertAsync(message));
+
+            // Assert
+            Assert.Equal(expected, exception.Message);
+        }
     }
 }
