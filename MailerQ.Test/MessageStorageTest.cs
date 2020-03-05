@@ -3,13 +3,15 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MailerQ.MessageStorage.Test
+namespace MailerQ.MessageStore.Test
 {
     public class MessageStorageTest
     {
-        public static IOptions<MessageStorageSettings> CreateOptions(string uri)
+        const string SimpleValidMongoUri = "mongodb://server/database";
+
+        public static IOptions<MailerQConfiguration> CreateOptions(string uri)
         {
-            var messageStorageSettings = new MessageStorageSettings { Url = uri };
+            var messageStorageSettings = new MailerQConfiguration { MessageStorageUrl = uri };
             return Options.Create(messageStorageSettings);
         }
 
@@ -33,13 +35,12 @@ namespace MailerQ.MessageStorage.Test
         [InlineData("https://server/path/to/directory")]
         [InlineData("ftp://path/to/directory")]
         [InlineData("file:///path/to/directory")]
-        [InlineData("sqlite:///path/to/database/file")]
         [Theory]
         public void Constructor_should_throw_exception_with_unsupported_engine_uri(string uri)
         {
             // Arrange
             var options = CreateOptions(uri);
-            var expected = $"{nameof(MessageStorageSettings)}.{nameof(MessageStorageSettings.Url)} has an unsupported message storage scheme";
+            var expected = $"{nameof(MailerQConfiguration.MessageStorageUrl)} value does not correspond to a supported storage engine";
 
             // Act
             var exception = Assert.Throws<ArgumentException>(() => new MessageStorage(options));
@@ -51,8 +52,10 @@ namespace MailerQ.MessageStorage.Test
         [InlineData("couchbase://password@hostname/bucketname")]
         [InlineData("mysql://user:password@hostname/databasename")]
         [InlineData("postgresql://user:password@hostname/databasename")]
+        [InlineData("sqlite:///path/to/database/file")]
+        [InlineData("directory:///path/to/directory")]
         [Theory]
-        public void Create_should_throw_exception_with_not_implemented_supported_engine_uri(string uri)
+        public void Constructor_should_throw_exception_with_not_implemented_supported_engine_uri(string uri)
         {
             // Arrange
             var options = CreateOptions(uri);
@@ -64,8 +67,6 @@ namespace MailerQ.MessageStorage.Test
             // Assert
             Assert.Contains(expected, ex.Message);
         }
-
-        const string SimpleValidMongoUri = "mongodb://server/database";
 
         [InlineData(SimpleValidMongoUri)]
         [InlineData("mongodb://mongos1.example.com,mongos2.example.com/?readPreference=secondary")]

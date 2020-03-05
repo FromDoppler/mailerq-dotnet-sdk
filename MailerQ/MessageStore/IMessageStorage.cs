@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace MailerQ.MessageStorage
+namespace MailerQ.MessageStore
 {
     public interface IMessageStorage
     {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MailerQ.MessageStorage
+namespace MailerQ.MessageStore
 {
-    internal class MongoMessageStorage : IMessageStorage
+    internal class MongoDBMessageStorage : IMessageStorage
     {
         const int MessageMaxSuppportedSize = 15728640; // 15 MB
         const int DaysToExpire = 7;
@@ -16,7 +16,7 @@ namespace MailerQ.MessageStorage
 
         readonly IMongoCollection<BsonDocument> messages;
 
-        public MongoMessageStorage(string url)
+        public MongoDBMessageStorage(string url)
         {
             var mongoUrl = MongoUrl.Create(url);
             var mongoClient = new MongoClient(mongoUrl);
