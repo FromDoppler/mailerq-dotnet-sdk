@@ -3,6 +3,7 @@ name: .NET Core
 on:
   push:
     branches: [ master ]
+    tags: '**'
   pull_request:
     branches: [ master ]
 
@@ -25,3 +26,24 @@ jobs:
       run: dotnet build --configuration Release
     - name: Test with dotnet
       run: dotnet test --no-build --configuration Release
+
+  pack:
+
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Determine version
+      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
+    - name: Pack Nuget
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION
+    - uses: actions/upload-artifact@v1
+      with:
+        name: artifacts
+        path: ./artifacts
