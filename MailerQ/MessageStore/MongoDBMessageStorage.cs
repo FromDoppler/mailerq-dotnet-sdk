@@ -10,7 +10,6 @@ namespace MailerQ.MessageStore
     internal class MongoDBMessageStorage : IMessageStorage
     {
         private const int MessageMaxSuppportedSize = 15728640; // 15 MB
-        private const int DaysToExpire = 7;
         private const string DataBase = "mailerq";
         private readonly string Collection = "mime";
         private readonly IMongoCollection<BsonDocument> messages;
@@ -23,7 +22,7 @@ namespace MailerQ.MessageStore
             messages = database.GetCollection<BsonDocument>(Collection);
         }
 
-        public async Task<string> InsertAsync(string message, CancellationToken cancellationToken = default)
+        public async Task<string> InsertAsync(string message, int secondsToExpire, CancellationToken cancellationToken = default)
         {
             var now = DateTime.UtcNow;
             var key = ObjectId.GenerateNewId(now).ToString();
@@ -39,7 +38,7 @@ namespace MailerQ.MessageStore
             var mime = new BsonDocument {
                 { "_id", key },
                 { "value", encodedMessage  },
-                { "expire", now.AddDays(DaysToExpire) },
+                { "expire", now.AddSeconds(secondsToExpire) },
                 { "modified", now },
                 { "encoding", "identity" }
             };
