@@ -12,7 +12,7 @@ namespace MailerQ.MessageStore
         private const int MessageMaxSuppportedSize = 15728640; // 15 MB
         private const int DaysToExpire = 7;
         private const string DataBase = "mailerq";
-        private readonly string Collection = "message";
+        private readonly string Collection = "mime";
         private readonly IMongoCollection<BsonDocument> messages;
 
         public MongoDBMessageStorage(string url)
