@@ -38,9 +38,9 @@ namespace MailerQ.MessageStore
             }
         }
 
-        public Task<string> InsertAsync(string message, CancellationToken cancellationToken = default)
+        public Task<string> InsertAsync(string message, int secondsToExpire = IMessageStorage.DefaultSecondsToExpire, CancellationToken cancellationToken = default)
         {
-            return storageEngine.InsertAsync(message, cancellationToken);
+            return storageEngine.InsertAsync(message, secondsToExpire, cancellationToken);
         }
     }
 }
