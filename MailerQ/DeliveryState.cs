@@ -11,6 +11,10 @@
         /// </summary>
         Process,
         /// <summary>
+        /// Suppression list is checked
+        /// </summary>
+        Suppression,
+        /// <summary>
         ///  The mime data is loaded from external nosql storage
         /// </summary>
         Storage,
