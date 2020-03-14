@@ -3,10 +3,6 @@
     public enum DeliveryState
     {
         /// <summary>
-        /// Unknown and unexpect state
-        /// </summary>
-        Unknown,
-        /// <summary>
         /// The input is checked and assigned to the from and to ip address between which it will be sent
         /// </summary>
         Process,
@@ -26,6 +22,10 @@
         /// The message is personalized if personalization data is available
         /// </summary>
         Personalize,
+        /// <summary>
+        /// Email was modified by a rewrite rule
+        /// </summary>
+        Rewrite,
         /// <summary>
         /// The hostname to which the mail should be sent is looked up in DNS
         /// </summary>
@@ -99,8 +99,8 @@
         /// </summary>
         Idle,
         /// <summary>
-        /// Email was modified by a rewrite rule
+        /// Unknown and unexpect state
         /// </summary>
-        Rewrite,
+        Unknown,
     }
 }
