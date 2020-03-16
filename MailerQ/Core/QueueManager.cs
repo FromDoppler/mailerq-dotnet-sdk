@@ -29,7 +29,7 @@ namespace MailerQ
 
         public void Publish(OutgoingMessage outgoingMessage, string queueName)
         {
-            var message = new Message<OutgoingMessage>(outgoingMessage);
+            var message = CreateMessage(outgoingMessage);
             bus.Publish(Exchange.GetDefault(), queueName, false, message);
         }
 
@@ -41,8 +41,19 @@ namespace MailerQ
 
         public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName)
         {
-            var message = new Message<OutgoingMessage>(outgoingMessage);
+            var message = CreateMessage(outgoingMessage);
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
+        }
+
+        private static Message<OutgoingMessage> CreateMessage(OutgoingMessage outgoingMessage)
+        {
+            var message = new Message<OutgoingMessage>(outgoingMessage);
+            if (outgoingMessage.Priority.HasValue)
+            {
+                message.Properties.Priority = (byte)outgoingMessage.Priority;
+                message.Properties.PriorityPresent = outgoingMessage.Priority.HasValue;
+            }
+            return message;
         }
 
         public IDisposable Subscribe<T>(Action<T> action) where T : OutgoingMessage
