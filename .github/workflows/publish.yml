@@ -1,0 +1,34 @@
+name: Publish Nuget
+
+on:
+  push:
+    tags: 'v*.*.*'
+
+jobs:
+  pack:
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Determine version
+      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
+    - name: Restore tools
+      run: dotnet tool restore
+    - name: Verify code format
+      run: dotnet dotnet-format --dry-run --check
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    - name: Test with dotnet
+      run: dotnet test --no-build --configuration Release
+    - name: Pack
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${VERSION:1}
+    - name: Publish
+      uses: actions/upload-artifact@v1
+      with:
+        name: artifacts
+        path: ./artifacts
