@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace MailerQ.MessageStore
 {
+    /// <summary>
+    /// MailerQ External Message Storage
+    /// </summary>
     public class MessageStorage : IMessageStorage
     {
         private readonly IMessageStorage storageEngine;
 
-        public MessageStorage(IOptions<MailerQConfiguration> options)
+        public MessageStorage(MailerQConfiguration configuration)
         {
-            var uri = options.Value.MessageStorageUrl;
+            var uri = configuration.MessageStorageUrl;
             var schemeSeparatorIndex = uri.IndexOf(@"://");
             if (schemeSeparatorIndex <= 0)
             {
@@ -26,6 +29,8 @@ namespace MailerQ.MessageStore
             }
             storageEngine = CreateConcretStorage(storageScheme, uri);
         }
+
+        public MessageStorage(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
         private IMessageStorage CreateConcretStorage(StorageEngines storageEngine, string uri)
         {
