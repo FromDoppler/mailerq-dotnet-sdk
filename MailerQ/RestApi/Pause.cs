@@ -3,7 +3,7 @@
 namespace MailerQ.RestApi
 {
     /// <summary>
-    /// Using this endpoint MailerQ allows you to pause almost any combination of pool/mta and domain/ip.
+    /// Define control over delivery flow, to pause almost any combination of pool/mta and domain/ip.
     /// </summary>
     [JsonObject(
        NamingStrategyType = typeof(LowercaseNamingStrategy),

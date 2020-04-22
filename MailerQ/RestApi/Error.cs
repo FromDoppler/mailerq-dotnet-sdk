@@ -3,17 +3,18 @@
 namespace MailerQ.RestApi
 {
     /// <summary>
-    /// Using this endpoint MailerQ allows you to intercept it and forcing an error on any combination of pool/mta and domain.
+    /// Define control over delivery flow to intercept it and forcing an error on any combination of pool/mta and domain.
     /// </summary>
     [JsonObject(
-    NamingStrategyType = typeof(LowercaseNamingStrategy),
-    ItemNullValueHandling = NullValueHandling.Ignore
+        NamingStrategyType = typeof(LowercaseNamingStrategy),
+        ItemNullValueHandling = NullValueHandling.Ignore
     )]
     public class Error
     {
         /// <summary>
         /// Numeric error code between 200 and 599 (smtp error codes).
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public int Code { get; set; }
 
         /// <summary>
