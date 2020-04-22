@@ -12,6 +12,11 @@ namespace MailerQ.ApiClient
     public class Pause
     {
         /// <summary>
+        /// Endpoint name
+        /// </summary>
+        public readonly string Endpoint = "pauses";
+
+        /// <summary>
         /// Pool that the pause applies to.
         /// </summary>
         public string Pool { get; set; }

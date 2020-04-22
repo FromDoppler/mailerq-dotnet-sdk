@@ -12,6 +12,11 @@ namespace MailerQ.ApiClient
     public class Error
     {
         /// <summary>
+        /// Endpoint name
+        /// </summary>
+        public readonly string Endpoint = "errors";
+
+        /// <summary>
         /// Numeric error code between 200 and 599 (smtp error codes).
         /// </summary>
         public int Code { get; set; }

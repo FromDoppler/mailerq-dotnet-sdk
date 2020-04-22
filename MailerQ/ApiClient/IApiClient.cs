@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MailerQ.ApiClient
 {
     public interface IApiClient
     {
-        bool Post(Error error);
-        bool Post(Pause pause);
-        bool Post(Inject inject);
-        bool Delete(Error error);
-        bool Delete(Pause pause);
-        List<Error> Get(Error error);
-        List<Pause> Get(Pause pause);
+        Task<bool> Post(Error error);
+        Task<bool> Post(Pause pause);
+        Task<bool> Post(Inject inject);
+        Task<bool> Delete(Error error);
+        Task<bool> Delete(Pause pause);
+        ICollection<Error> Get(Error error);
+        ICollection<Pause> Get(Pause pause);
     }
 }

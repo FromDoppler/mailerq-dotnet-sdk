@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace MailerQ.ApiClient
 {
@@ -15,16 +17,12 @@ namespace MailerQ.ApiClient
         private readonly ApiClientSettings _apiClientSettings;
         private UriBuilder _apiUri;
         private readonly ILogger<ApiClient> _logger;
+        private readonly IHttpClientFactory _httpFactory;
 
-        private const string EndpointError = "errors";
-        private const string EndpointPause = "pauses";
-        private const string EndpointInject = "inject";
-
-        private const string MethodPost = WebRequestMethods.Http.Post;
-        private const string MethodDelete = "DELETE";
-        private const string MethodGet = WebRequestMethods.Http.Get;
-
-        public ApiClient(ApiClientSettings apiClientSettings, ILogger<ApiClient> logger)
+        public ApiClient(
+            ILogger<ApiClient> logger,
+            ApiClientSettings apiClientSettings,
+            IHttpClientFactory httpFactory)
         {
             _apiClientSettings = apiClientSettings;
             _apiUri = new UriBuilder(_apiClientSettings.Url)
@@ -32,169 +30,187 @@ namespace MailerQ.ApiClient
                 Path = _apiClientSettings.Version
             };
             _logger = logger;
+            _httpFactory = httpFactory;
         }
 
-        public ApiClient(IOptions<ApiClientSettings> options, ILogger<ApiClient> logger) : this(options.Value, logger) { }
+        public ApiClient(
+            ILogger<ApiClient> logger,
+            IOptions<ApiClientSettings> options,
+            IHttpClientFactory httpFactory) : this(logger, options.Value, httpFactory) { }
 
-        public bool Post(Error error)
+        public async Task<bool> Post(Error error)
         {
             try
             {
                 var jsonContent = JsonConvert.SerializeObject(error);
-                var result = MailerQApiClient(EndpointError, MethodPost, jsonContent);
+                var result = await MailerQApiClientPostAsync(error.Endpoint, jsonContent);
                 return result == HttpStatusCode.OK;
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointError,
-                    MethodPost);
+                    error.Endpoint,
+                    nameof(Post));
                 throw exception;
             }
         }
 
-        public bool Post(Pause pause)
+        public async Task<bool> Post(Pause pause)
         {
             try
             {
                 var jsonContent = JsonConvert.SerializeObject(pause);
-                var result = MailerQApiClient(EndpointPause, MethodPost, jsonContent);
+                var result = await MailerQApiClientPostAsync(pause.Endpoint, jsonContent);
                 return result == HttpStatusCode.OK;
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointPause,
-                    MethodPost);
+                    pause.Endpoint,
+                    nameof(Post));
                 throw exception;
             }
         }
 
-        public bool Post(Inject inject)
+        public async Task<bool> Post(Inject inject)
         {
             try
             {
                 var jsonContent = JsonConvert.SerializeObject(inject);
-                var result = MailerQApiClient(EndpointInject, MethodPost, jsonContent);
+                var result = await MailerQApiClientPostAsync(inject.Endpoint, jsonContent);
                 return result == HttpStatusCode.OK;
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointInject,
-                    MethodPost);
+                    inject.Endpoint,
+                    nameof(Post));
                 throw exception;
             }
         }
-        public bool Delete(Error error)
+
+        private async Task<HttpStatusCode> MailerQApiClientPostAsync(string endpoint, string content)
+        {
+            _apiUri.Path = Path.Combine(_apiUri.Path, endpoint);
+
+            var client = _httpFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiClientSettings.Token);
+
+            HttpContent httpContent = new StringContent(content);
+            httpContent.Headers.ContentType.MediaType = "application/json";
+
+            var httpResponse = await client.PostAsync(_apiUri.Uri, httpContent);
+
+            return httpResponse.StatusCode;
+        }
+
+        public async Task<bool> Delete(Error error)
         {
             try
             {
                 var jsonContent = JsonConvert.SerializeObject(error);
-                var result = MailerQApiClient(EndpointError, MethodDelete, jsonContent);
+                var result = await MailerQApiClientDeleteAsync(error.Endpoint, jsonContent);
                 return result == HttpStatusCode.OK;
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointError,
-                    MethodDelete);
+                    error.Endpoint,
+                    nameof(Delete));
                 throw exception;
             }
         }
-        public bool Delete(Pause pause)
+        public async Task<bool> Delete(Pause pause)
         {
             try
             {
                 var jsonContent = JsonConvert.SerializeObject(pause);
-                var result = MailerQApiClient(EndpointPause, MethodDelete, jsonContent);
+                var result = await MailerQApiClientDeleteAsync(pause.Endpoint, jsonContent);
                 return result == HttpStatusCode.OK;
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointPause,
-                    MethodDelete);
+                    pause.Endpoint,
+                    nameof(Delete));
                 throw exception;
             }
         }
 
-        private HttpStatusCode MailerQApiClient(string endpoint, string method, string content)
+        private async Task<HttpStatusCode> MailerQApiClientDeleteAsync(string endpoint, string content)
         {
             _apiUri.Path = Path.Combine(_apiUri.Path, endpoint);
-            var request = WebRequest.CreateHttp(_apiUri.Uri);
 
-            request.Method = method;
-            request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Authorization", "Bearer " + _apiClientSettings.Token);
+            var client = _httpFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiClientSettings.Token);
 
-            using (var requestStream = request.GetRequestStream())
+            HttpContent httpContent = new StringContent(content);
+            httpContent.Headers.ContentType.MediaType = "application/json";
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, _apiUri.Uri)
             {
-                using var streamWriter = new StreamWriter(requestStream);
-                streamWriter.Write(content);
-            }
-            var response = (HttpWebResponse)request.GetResponse();
-            return response.StatusCode;
+                Content = httpContent
+            };
+
+            var httpResponse = await client.SendAsync(httpRequestMessage);
+
+            return httpResponse.StatusCode;
         }
 
-        public List<Error> Get(Error error)
+        public ICollection<Error> Get(Error error)
         {
             try
             {
-                var result = MailerQApiClientGet(EndpointError, MethodGet);
-                return JsonConvert.DeserializeObject<List<Error>>(result);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception,
-                    "Endpoint: {Endpoint}. Method: {Method}. Exception message: {Message}",
-                    EndpointError,
-                    MethodGet,
-                    exception.Message);
-                throw exception;
-            }
-        }
-
-        public List<Pause> Get(Pause pause)
-        {
-            try
-            {
-                var result = MailerQApiClientGet(EndpointPause, MethodGet);
-                return JsonConvert.DeserializeObject<List<Pause>>(result);
+                var result = MailerQApiClientGetAsync(error.Endpoint);
+                return JsonConvert.DeserializeObject<List<Error>>(result.Result);
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception,
                     "Endpoint: {Endpoint}. Method: {Method}.",
-                    EndpointPause,
-                    MethodGet);
+                    error.Endpoint,
+                    nameof(Get));
                 throw exception;
             }
         }
 
-        private string MailerQApiClientGet(string endpoint, string method)
+        public ICollection<Pause> Get(Pause pause)
+        {
+            try
+            {
+                var result = MailerQApiClientGetAsync(pause.Endpoint);
+                return JsonConvert.DeserializeObject<List<Pause>>(result.Result);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(exception,
+                    "Endpoint: {Endpoint}. Method: {Method}.",
+                    pause.Endpoint,
+                    nameof(Get));
+                throw exception;
+            }
+        }
+
+        private async Task<string> MailerQApiClientGetAsync(string endpoint)
         {
             _apiUri.Path = Path.Combine(_apiUri.Path, endpoint);
-            var request = (HttpWebRequest)WebRequest.Create(_apiUri.Uri);
 
-            request.Method = method;
-            request.Headers.Add("Content-Type", "application/json");
-            request.Headers.Add("Authorization", "Bearer " + _apiClientSettings.Token);
+            var client = _httpFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiClientSettings.Token);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var content = string.Empty;
-
-            using (var response = (HttpWebResponse)request.GetResponse())
+            var httpResponse = await client.GetAsync(_apiUri.Uri);
+            if (httpResponse.StatusCode == HttpStatusCode.OK)
             {
-                using var stream = response.GetResponseStream();
-                using var streamReader = new StreamReader(stream);
-                content = streamReader.ReadToEnd();
+                return await httpResponse.Content.ReadAsStringAsync();
             }
-            return content;
+
+            return null;
         }
     }
 }

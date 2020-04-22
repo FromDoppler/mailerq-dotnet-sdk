@@ -15,12 +15,12 @@ namespace MailerQ.ApiClient
         public string Authentication { get; set; }
 
         /// <summary>
-        /// remote ip who connected
+        /// Remote ip who connected
         /// </summary>
         public string RemoteIp { get; set; }
 
         /// <summary>
-        /// remote port who connected
+        /// Remote port who connected
         /// </summary>
         public string RemotePort { get; set; }
     }

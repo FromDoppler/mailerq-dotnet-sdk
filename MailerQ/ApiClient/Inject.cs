@@ -13,7 +13,12 @@ namespace MailerQ.ApiClient
     public class Inject : OutgoingMessage
     {
         /// <summary>
-        /// the priority of the message
+        /// Endpoint name
+        /// </summary>
+        public readonly string Endpoint = "inject";
+
+        /// <summary>
+        /// The priority of the message
         /// </summary>
         public Http Http { get; set; }
     }
