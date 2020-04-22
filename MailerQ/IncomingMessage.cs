@@ -48,6 +48,11 @@ namespace MailerQ
         public string MTA { get; set; }
 
         public bool Report { get; set; }
+
+        /// <summary>        
+        /// Rest API info (only used when received from Rest Api)
+        /// </summary>
+        public RestApiInfo Http { get; set; }
     }
 
     [Queue(Conventions.QueueName.Reports)]
