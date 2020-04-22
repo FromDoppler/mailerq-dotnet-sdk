@@ -1,19 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace MailerQ.ApiClient.Test
 {
     public class ApiClientTest
     {
-        private const string _url = "http://192.168.170.140";
-        private const string _token = "sBftYte4RhcXe4BHL0PccgyGGdOrrYD13gOinbhNCeI6bLwv6nQz7BM1pfl8CdrnAPXZpMJnJxTvtDB4j4BW1xd3V1SksNFhA4xvPBOnS1IasoyeLqc3z6dcdC4PNqsGMRIPyTWZOqRYTJcFfvPnueGsVoq5bDcEujmY6lgD4tOKb4fe8c88JCM2vAr6P4cLmjJAA76IOkBKyj4ZwuFP2M2PTmbmEFayDoX2iQNKbeC4IiJQT6MDt3VAo8bM448";
-
         public static IOptions<ApiClientSettings> CreateSettings(string url, string token, string version)
         {
             var apiClientSettings = new ApiClientSettings
@@ -25,39 +26,60 @@ namespace MailerQ.ApiClient.Test
             return Options.Create(apiClientSettings);
         }
 
-        [InlineData(_url, _token, "v1", true)]
-        [Theory(Skip = "true")]
-        public void Post_errors_should_finish_sucessfull(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Post_errors_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    //Content = new StringContent("{'name':thecodebuzz,'city':'USA'}"),
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var error = new Error
             {
                 Domain = "hotmail.com",
                 Code = 421,
-                Tag = "CampaignFromUTest10",
+                Tag = "CampaignFromUTest20",
                 Cluster = true
             };
 
-            var result = sut.Post(error);
+            var result = await sut.Post(error);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.True(result);
         }
 
-        [InlineData(_url, "invalidtoken", "v1", true)]
-        [Theory(Skip = "true")]
-        public void Post_errors_should_throw_exception_unauthorized(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Post_errors_should_fail_when_unauthorized()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.Unauthorized,
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var error = new Error
             {
@@ -67,41 +89,64 @@ namespace MailerQ.ApiClient.Test
                 Cluster = true
             };
 
+            var result = await sut.Post(error);
+
             // Assert
-            Assert.ThrowsAny<WebException>(() => sut.Post(error));
+            Assert.False(result);
         }
 
-        [InlineData(_url, _token, "v1", true)]
-        [Theory(Skip = "true")]
-        public void Post_pauses_should_finish_sucessfull(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Post_pauses_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var pause = new Pause
             {
                 Domain = "hotmail.com",
-                Tag = "PauseCampaignFromUTest"
+                Tag = "PauseCampaignFromUTest0304",
+                Cluster = true
             };
 
-            var result = sut.Post(pause);
+            var result = await sut.Post(pause);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.True(result);
         }
 
-        [InlineData(_url, _token, "v1", true)]
-        [Theory(Skip = "true")]
-        public void Post_inject_should_finish_sucessfull(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Post_inject_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var inject = new Inject
             {
@@ -117,92 +162,156 @@ namespace MailerQ.ApiClient.Test
                 }
             };
 
-            var result = sut.Post(inject);
+            var result = await sut.Post(inject);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.True(result);
         }
 
-        [InlineData(_url, _token, "v1")]
-        [Theory(Skip = "true")]
-        public void Get_errors_should_finish_sucessfull(string uri, string token, string version)
+        [Fact]
+        public void Get_errors_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var listErrorsResult = JsonConvert.SerializeObject(new List<Error>(new[]
+{
+                new Error {
+                    Code = 421,
+                    Tag = "CampaignFromUTest01"
+                },
+                new Error {
+                    Code = 421,
+                    Tag = "CampaignFromUTest02"
+                }
+            }));
+
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(listErrorsResult),
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
-            var error = new Error();
-
-            var result = sut.Get(error);
+            var result = sut.Get(new Error());
 
             // Assert
             Assert.NotNull(result);
+            Assert.Equal(JsonConvert.SerializeObject(result), listErrorsResult);
         }
 
-        [InlineData(_url, _token, "v1")]
-        [Theory(Skip = "true")]
-        public void Get_pauses_should_finish_sucessfull(string uri, string token, string version)
+        [Fact]
+        public void Get_pauses_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var listPausesResult = JsonConvert.SerializeObject(new List<Pause>(new[]
+            {
+                new Pause {
+                    Tag = "CampaignFromUTest01"
+                },
+                new Pause {
+                    Tag = "CampaignFromUTest02"
+                }
+            }));
+
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(listPausesResult),
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
-            var pause = new Pause();
-
-            var result = sut.Get(pause);
+            var result = sut.Get(new Pause());
 
             // Assert
             Assert.NotNull(result);
+            Assert.Equal(JsonConvert.SerializeObject(result), listPausesResult);
         }
 
-        [InlineData(_url, _token, "v1", true)]
-        [Theory(Skip = "true")]
-        public void Delete_errors_should_finish_sucessfull(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Delete_errors_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var error = new Error
             {
                 Domain = "hotmail.com",
                 Code = 421,
-                Tag = "CampaignTestErrorApi",
+                Tag = "CampaignFromUTest",
                 Cluster = true
             };
 
-            var result = sut.Delete(error);
+            var result = await sut.Delete(error);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.True(result);
         }
 
-        [InlineData(_url, _token, "v1", true)]
-        [Theory(Skip = "true")]
-        public void Delete_pauses_should_finish_sucessfull(string uri, string token, string version, bool expectedResult)
+        [Fact]
+        public async void Delete_pauses_should_finish_sucessfull()
         {
-            // Arrange
-            var options = CreateSettings(uri, token, version);
+            // Arrange            
+            var options = CreateSettings("url", "token", "version");
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                });
+
+            var client = new HttpClient(mockHttpMessageHandler.Object);
+            httpClientFactoryMock.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(client);
 
             // Act
-            var sut = new ApiClient(options, Mock.Of<ILogger<ApiClient>>());
+            var sut = new ApiClient(Mock.Of<ILogger<ApiClient>>(), options, httpClientFactoryMock.Object);
 
             var pause = new Pause
             {
                 Domain = "hotmail.com",
-                Tag = "PauseTestApiClient2"
+                Tag = "PauseTestApiClient2",
+                Cluster = true
             };
 
-            var result = sut.Delete(pause);
+            var result = await sut.Delete(pause);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.True(result);
         }
     }
 }
