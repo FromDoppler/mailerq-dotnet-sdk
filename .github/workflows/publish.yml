@@ -27,8 +27,10 @@ jobs:
       run: dotnet test --no-build --configuration Release
     - name: Pack
       run: dotnet pack --output ./artifacts --configuration Release -p:Version=${VERSION:1}
-    - name: Publish
+    - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: artifacts
         path: ./artifacts
+    - name: Publish to github
+      run: dotnet nuget push "artifacts/MailerQ.${VERSION:1}.nupkg" --source 'github
