@@ -15,8 +15,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.102
-    - name: Determine version
-      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
     - name: Restore tools
       run: dotnet tool restore
     - name: Verify code format
@@ -25,6 +23,8 @@ jobs:
       run: dotnet build --configuration Release
     - name: Test with dotnet
       run: dotnet test --no-build --configuration Release
+    - name: Determine version from tag
+      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
     - name: Pack
       run: dotnet pack --output ./artifacts --configuration Release -p:Version=${VERSION:1}
     - name: Upload artifact
