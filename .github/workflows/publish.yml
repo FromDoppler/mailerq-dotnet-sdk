@@ -33,4 +33,4 @@ jobs:
         name: artifacts
         path: ./artifacts
     - name: Publish to github
-      run: dotnet nuget push "artifacts/MailerQ.${VERSION:1}.nupkg" --source 'github
+      run: dotnet nuget push "./artifacts/MailerQ.${VERSION:1}.nupkg" --source 'github'
