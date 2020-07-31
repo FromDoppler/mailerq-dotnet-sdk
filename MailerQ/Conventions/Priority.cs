@@ -4,6 +4,6 @@
     {
         Low,
         Normal,
-        Higth
+        High
     }
 }
