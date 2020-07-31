@@ -13,12 +13,6 @@ namespace MailerQ
     public class OutgoingMessage
     {
         /// <summary>
-        /// This is a custom property to allow follow the message while the delivery process
-        /// </summary>
-        [Obsolete("Use the MessageId property instead that is currently used as its backend property. This will be removed in the next major version.")]
-        public string DeliveryGuid { get => MessageId; set => MessageId = value; }
-
-        /// <summary>
         /// Unique message id generated for the mail
         /// </summary>
         [JsonProperty("message-id")]
