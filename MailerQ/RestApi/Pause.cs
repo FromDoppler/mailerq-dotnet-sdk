@@ -6,8 +6,8 @@ namespace MailerQ.RestApi
     /// Define control over delivery flow, to pause almost any combination of pool/mta and domain/ip.
     /// </summary>
     [JsonObject(
-       NamingStrategyType = typeof(LowercaseNamingStrategy),
-       ItemNullValueHandling = NullValueHandling.Ignore
+        NamingStrategyType = typeof(LowercaseNamingStrategy),
+        ItemNullValueHandling = NullValueHandling.Ignore
     )]
     public class Pause
     {
