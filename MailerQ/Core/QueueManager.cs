@@ -18,7 +18,7 @@ namespace MailerQ
         {
             this.configuration = configuration;
             var connectionString = new ConnectionStringParser().Parse(configuration.RabbitConnectionString);
-            if (string.IsNullOrWhiteSpace(configuration.RabbitPassword))
+            if (!string.IsNullOrWhiteSpace(configuration.RabbitPassword))
             {
                 connectionString.Password = configuration.RabbitPassword;
             }
