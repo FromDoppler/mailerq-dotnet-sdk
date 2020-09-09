@@ -17,13 +17,13 @@ namespace MailerQ
         public QueueManager(MailerQConfiguration configuration)
         {
             this.configuration = configuration;
-            var connectionString = new ConnectionStringParser().Parse(configuration.RabbitConnectionString);
+            var connectionConfiguration = new ConnectionStringParser().Parse(configuration.RabbitConnectionString);
             if (!string.IsNullOrWhiteSpace(configuration.RabbitPassword))
             {
-                connectionString.Password = configuration.RabbitPassword;
+                connectionConfiguration.Password = configuration.RabbitPassword;
             }
 
-            bus = RabbitHutch.CreateBus(configuration.RabbitConnectionString).Advanced;
+            bus = RabbitHutch.CreateBus(connectionConfiguration, x => { }).Advanced;
         }
 
         public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
