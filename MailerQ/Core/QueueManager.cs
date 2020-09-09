@@ -1,4 +1,5 @@
 ﻿using EasyNetQ;
+using EasyNetQ.ConnectionString;
 using EasyNetQ.Topology;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -16,6 +17,12 @@ namespace MailerQ
         public QueueManager(MailerQConfiguration configuration)
         {
             this.configuration = configuration;
+            var connectionString = new ConnectionStringParser().Parse(configuration.RabbitConnectionString);
+            if (string.IsNullOrWhiteSpace(configuration.RabbitPassword))
+            {
+                connectionString.Password = configuration.RabbitPassword;
+            }
+
             bus = RabbitHutch.CreateBus(configuration.RabbitConnectionString).Advanced;
         }
 
