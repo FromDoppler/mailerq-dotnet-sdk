@@ -8,5 +8,6 @@
         PostgreSql,
         SQlite,
         Directory,
+        S3,
     }
 }
