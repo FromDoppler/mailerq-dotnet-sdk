@@ -10,7 +10,15 @@ namespace MailerQ.RestApi
         /// <summary>
         /// Network address translation
         /// </summary>
-        Nat
+        Nat,
+        /// <summary>
+        /// Socks
+        /// </summary>
+        Socks,
+        /// <summary>
+        /// Http
+        /// </summary>
+        Http,
     }
 
     /// <summary>
@@ -34,6 +42,11 @@ namespace MailerQ.RestApi
         [JsonProperty("local_ip")]
         public string LocalIP { get; set; }
         /// <summary>
+        /// The IP to use for the external server
+        /// </summary>
+        [JsonProperty("connect_ip")]
+        public string ConnectIP { get; set; }
+        /// <summary>
         /// The port to use for the external server
         /// </summary>
         [JsonProperty("connect_port")]
@@ -41,6 +54,7 @@ namespace MailerQ.RestApi
         /// <summary>
         /// The protocol to use to connect to the external server(currently only 'nat' is supported)
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ExternalIpProtocol Protocol { get; set; }
     }
 }
