@@ -34,6 +34,11 @@ namespace MailerQ.RestApi
         [JsonProperty("local_ip")]
         public string LocalIP { get; set; }
         /// <summary>
+        /// The IP to use for the external server
+        /// </summary>
+        [JsonProperty("connect_ip")]
+        public string ConnectIP { get; set; }
+        /// <summary>
         /// The port to use for the external server
         /// </summary>
         [JsonProperty("connect_port")]
