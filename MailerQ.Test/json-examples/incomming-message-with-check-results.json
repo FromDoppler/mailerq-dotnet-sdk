@@ -1,0 +1,33 @@
+{
+  "message-id": "gdsfu232",
+  "received": "2016-03-22 17:23:12",
+  "hostname": "sender1.mailerq.com",
+  "envelope": "whatever@example.com",
+  "recipient": "info@example.com",
+  "mime": "...",
+  "connection": {
+    "local-ip": "1.2.3.4",
+    "local-port": 25,
+    "remote-ip": "5.6.7.8",
+    "remote-port": 25324,
+    "secure": true,
+    "user": "mailerq"
+  },
+  "checks": [
+    {
+      "spf": "pass",
+      "smtp.mailfrom": "whatever@example.com"
+    },
+    {
+      "dkim": "pass",
+      "domain": "example.com",
+      "selector": "dkim",
+      "header.i": "fsjfksjfslkdf",
+      "header.b": "sodfidjsfdsjfsfjs"
+    },
+    {
+      "dmarc": "pass",
+      "header.from": "whatever@example.com"
+    }
+  ]
+}

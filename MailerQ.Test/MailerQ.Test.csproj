@@ -18,6 +18,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="json-examples\incomming-message-from-cli.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\incomming-message-from-rest-api.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\incomming-message-from-spool.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\incomming-message-from-tcp.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\incomming-message-with-check-results.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\incomming-message.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="json-examples\result-message-with-secure-connections.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
