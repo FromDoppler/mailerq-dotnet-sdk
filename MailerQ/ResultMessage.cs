@@ -13,9 +13,6 @@ namespace MailerQ
     public class ResultMessage : OutgoingMessage
     {
         public IList<DeliveryAttempt> Results { get; set; }
-        public SentInfo Sent { get; set; }
-        public EmailAddressParts Envelope { get; set; }
-        public EmailAddressParts Recipient { get; set; }
     }
 
     [Queue(Conventions.QueueName.Success)]
