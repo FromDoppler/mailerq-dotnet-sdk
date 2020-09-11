@@ -61,5 +61,37 @@ namespace MailerQ.Test
             Assert.IsType<IncomingMessage>(incommming);
             Assert.NotNull(incommming);
         }
+
+        [InlineData("outgoing-message.json")]
+        [InlineData("outgoing-message-with-many-options.json")]
+        [InlineData("outgoing-message-with-responsive-email-mime.json")]
+        [Theory]
+        public void Should_deserialize_outgoing_message_example(string filename)
+        {
+            // Assert
+            var json = LoadJsonFromFileExample(filename);
+
+            // Act
+            var outgoing = JsonConvert.DeserializeObject<OutgoingMessage>(json);
+            var result = JsonConvert.DeserializeObject<ResultMessage>(json);
+            var success = JsonConvert.DeserializeObject<SuccessMessage>(json);
+            var failure = JsonConvert.DeserializeObject<FailureMessage>(json);
+            var retry = JsonConvert.DeserializeObject<RetryMessage>(json);
+            var incomming = JsonConvert.DeserializeObject<IncomingMessage>(json);
+
+            // Assert
+            Assert.IsType<OutgoingMessage>(outgoing);
+            Assert.NotNull(outgoing);
+            Assert.IsType<ResultMessage>(result);
+            Assert.NotNull(result);
+            Assert.IsType<SuccessMessage>(success);
+            Assert.NotNull(success);
+            Assert.IsType<FailureMessage>(failure);
+            Assert.NotNull(failure);
+            Assert.IsType<RetryMessage>(retry);
+            Assert.NotNull(retry);
+            Assert.IsType<IncomingMessage>(incomming);
+            Assert.NotNull(incomming);
+        }
     }
 }
