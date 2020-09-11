@@ -17,4 +17,16 @@
     <ProjectReference Include="..\MailerQ\MailerQ.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="json-examples\result-message-with-secure-connections.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\result-message-with-added-properties.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\result-message.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
