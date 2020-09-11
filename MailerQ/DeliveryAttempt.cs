@@ -2,6 +2,9 @@
 
 namespace MailerQ
 {
+    /// <summary>
+    /// Result of one delivery attempt
+    /// </summary>
     public class DeliveryAttempt
     {
         /// <summary>
@@ -74,8 +77,14 @@ namespace MailerQ
         /// </summary>
         public bool Dsn { get; set; }
 
+        /// <summary>
+        /// Attempt that generate the result
+        /// </summary>
         public int Attempt { get; set; }
 
+        /// <summary>
+        /// Amount of bytes sent over the same connection
+        /// </summary>
         public SentInfo Sent { get; set; }
     }
 }
