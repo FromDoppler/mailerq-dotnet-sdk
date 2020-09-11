@@ -1,0 +1,13 @@
+{
+  "received": "2016-03-22 17:23:12",
+  "hostname": "sender1.mailerq.com",
+  "envelope": "whatever@example.com",
+  "recipient": "info@example.com",
+  "mime": "...",
+  "spool": {
+    "directory": "/path/to/directory",
+    "file": "filename.mime",
+    "user": "owner",
+    "size": 23299
+  }
+}

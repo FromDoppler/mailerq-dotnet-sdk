@@ -1,0 +1,10 @@
+{
+  "envelope": "whatever@example.com",
+  "recipient": "info@example.com",
+  "mime": "...",
+  "http": {
+    "authentication": "rest token name",
+    "remote-ip": "1.2.3.4",
+    "remote-port": 12345
+  }
+}
