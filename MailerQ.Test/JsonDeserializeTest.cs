@@ -20,7 +20,7 @@ namespace MailerQ.Test
         [InlineData("result-message-with-added-properties.json")]
         [InlineData("result-message-with-secure-connections.json")]
         [Theory]
-        public void Should_parse_result_message_example(string filename)
+        public void Should_deserialize_result_message_example(string filename)
         {
             // Assert
             var json = LoadJsonFromFileExample(filename);
@@ -49,7 +49,7 @@ namespace MailerQ.Test
         [InlineData("incomming-message-from-rest-api.json")]
         [InlineData("incomming-message-with-check-results.json")]
         [Theory]
-        public void Should_parse_incomming_message_example(string filename)
+        public void Should_deserialize_incomming_message_example(string filename)
         {
             // Assert
             var json = LoadJsonFromFileExample(filename);
