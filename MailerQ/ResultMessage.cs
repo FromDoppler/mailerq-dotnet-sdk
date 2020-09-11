@@ -13,7 +13,6 @@ namespace MailerQ
     public class ResultMessage : OutgoingMessage
     {
         public IList<DeliveryAttempt> Results { get; set; }
-        public SentInfo Sent { get; set; }
     }
 
     [Queue(Conventions.QueueName.Success)]

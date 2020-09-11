@@ -75,5 +75,7 @@ namespace MailerQ
         public bool Dsn { get; set; }
 
         public int Attempt { get; set; }
+
+        public SentInfo Sent { get; set; }
     }
 }
