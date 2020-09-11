@@ -41,5 +41,25 @@ namespace MailerQ.Test
             Assert.IsType<RetryMessage>(retry);
             Assert.NotNull(retry);
         }
+
+        [InlineData("incomming-message.json")]
+        [InlineData("incomming-message-from-tcp.json")]
+        [InlineData("incomming-message-from-spool.json")]
+        [InlineData("incomming-message-from-cli.json")]
+        [InlineData("incomming-message-from-rest-api.json")]
+        [InlineData("incomming-message-with-check-results.json")]
+        [Theory]
+        public void Should_parse_incomming_message_example(string filename)
+        {
+            // Assert
+            var json = LoadJsonFromFileExample(filename);
+
+            // Act
+            var incommming = JsonConvert.DeserializeObject<IncomingMessage>(json);
+
+            // Assert
+            Assert.IsType<IncomingMessage>(incommming);
+            Assert.NotNull(incommming);
+        }
     }
 }
