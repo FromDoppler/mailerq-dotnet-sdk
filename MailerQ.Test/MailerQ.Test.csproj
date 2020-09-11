@@ -36,6 +36,15 @@
     <None Update="json-examples\incomming-message.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="json-examples\outgoing-message-with-many-options.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\outgoing-message-with-responsive-email-mime.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="json-examples\outgoing-message.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="json-examples\result-message-with-secure-connections.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

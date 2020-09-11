@@ -1,0 +1,90 @@
+
+{
+  "envelope": "my-sender-address@my-domain.com",
+  "recipient": "info@example.org",
+  "mime": "From: my-sender-address@my-domain.com\r\nTo: info@example.org\r\nSubject: ...",
+  "key": "message-store-key-where-data-can-be-found",
+  "tags": [ "Customer Name", "Example Campaign" ],
+  "keepmime": true,
+  "data": {
+    "firstname": "Emiel",
+    "lastname": "Bruijntjes",
+    "email": "emiel.bruijntjes@copernica.com"
+  },
+  "ips": [ "231.34.13.156", "231.34.13.158" ],
+  "pool": "example-pool",
+  "nextattempt": {
+    "time": "2019-01-10 00:00:00"
+  },
+  "maxdelivertime": "2016-02-10 00:00:00",
+  "maxattempts": 3,
+  "retries": [ 600, 600, 1800, 3600 ],
+  "inlinecss": true,
+  "dkim": [
+    {
+      "domain": "example.com",
+      "selector": "x",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n....."
+    },
+    {
+      "domain": "example.com",
+      "selector": "y",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
+      "expire": "2017-01-01 00:00:00",
+      "headers": [ "x-custom-header", "x-other-header" ]
+    },
+    {
+      "domain": "example.com",
+      "selector": "x",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
+      "protocols": [ "dkim", "arc" ]
+    },
+    {
+      "domain": "example.com",
+      "selector": "y",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
+      "protocols": [ "arc" ]
+    },
+    {
+      "domain": "example.com",
+      "selector": "x",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
+      "canonicalization": "simple/simple"
+    },
+    {
+      "domain": "example.com",
+      "selector": "y",
+      "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
+      "canonicalization": "relaxed/relaxed"
+    }
+  ],
+  "dsn": {
+    "notify": "FAILURE",
+    "ret": "HDRS",
+    "orcpt": "info@example.org",
+    "envid": "my-identifier"
+  },
+  "queues": {
+    "results": "name-of-results-queue",
+    "failure": "name-of-failure-queue",
+    "success": "name-of-success-queue",
+    "retry": "name-of-retry-queue",
+    "dsn": "name-of-dsn-queue"
+  },
+  "smarthost": {
+    "hostname": "mail.smtpeter.com",
+    "port": 25,
+    "username": "my-username",
+    "password": "my-password"
+  },
+  "headers": {
+    "remove": [ "dummy", "bcc" ],
+    "prepend": {
+      "cc": "cc@ex.com",
+    },
+    "replace": {
+      "from": "xe@xe.com"
+    }
+  },
+  "custom-property-name": "debug data"
+}
