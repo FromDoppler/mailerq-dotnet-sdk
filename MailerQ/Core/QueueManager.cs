@@ -36,7 +36,7 @@ namespace MailerQ
             Publish(message, queueName);
         }
 
-        public void Publish(OutgoingMessage outgoingMessage, string queueName)
+        public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             bus.Publish(Exchange.GetDefault(), queueName, false, message);
@@ -48,7 +48,7 @@ namespace MailerQ
             await PublishAsync(message, queueName);
         }
 
-        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName)
+        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
