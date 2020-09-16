@@ -1,9 +1,11 @@
 ﻿using EasyNetQ;
 using EasyNetQ.ConnectionString;
 using EasyNetQ.Topology;
+using MailerQ.Conventions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,28 +30,32 @@ namespace MailerQ
 
         public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
-        public void Publish(OutgoingMessage message)
-        {
-            var queueName = typeof(OutgoingMessage).GetAttribute<QueueAttribute>().QueueName;
-            Publish(message, queueName);
-        }
-
-        public void Publish(OutgoingMessage outgoingMessage, string queueName)
+        public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             bus.Publish(Exchange.GetDefault(), queueName, false, message);
         }
 
-        public async Task PublishAsync(OutgoingMessage message)
-        {
-            var queueName = typeof(OutgoingMessage).GetAttribute<QueueAttribute>().QueueName;
-            await PublishAsync(message, queueName);
-        }
-
-        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName)
+        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
+        }
+
+        public void Publish(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        {
+            foreach (var message in messages)
+            {
+                Publish(message, queueName);
+            }
+        }
+
+        public async Task PublishAsync(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        {
+            foreach (var message in messages)
+            {
+                await PublishAsync(message, queueName);
+            }
         }
 
         private static Message<OutgoingMessage> CreateMessage(OutgoingMessage outgoingMessage)
