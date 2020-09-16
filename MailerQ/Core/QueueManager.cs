@@ -30,22 +30,10 @@ namespace MailerQ
 
         public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
-        public void Publish(OutgoingMessage message)
-        {
-            var queueName = typeof(OutgoingMessage).GetAttribute<QueueAttribute>().QueueName;
-            Publish(message, queueName);
-        }
-
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             bus.Publish(Exchange.GetDefault(), queueName, false, message);
-        }
-
-        public async Task PublishAsync(OutgoingMessage message)
-        {
-            var queueName = typeof(OutgoingMessage).GetAttribute<QueueAttribute>().QueueName;
-            await PublishAsync(message, queueName);
         }
 
         public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
