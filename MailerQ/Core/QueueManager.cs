@@ -1,9 +1,11 @@
 ﻿using EasyNetQ;
 using EasyNetQ.ConnectionString;
 using EasyNetQ.Topology;
+using MailerQ.Conventions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,6 +52,22 @@ namespace MailerQ
         {
             var message = CreateMessage(outgoingMessage);
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
+        }
+
+        public void Publish(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        {
+            foreach (var message in messages)
+            {
+                Publish(message, queueName);
+            }
+        }
+
+        public async Task PublishAsync(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        {
+            foreach (var message in messages)
+            {
+                await PublishAsync(message, queueName);
+            }
         }
 
         private static Message<OutgoingMessage> CreateMessage(OutgoingMessage outgoingMessage)
