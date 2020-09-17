@@ -7,7 +7,9 @@ namespace MailerQ
 {
     public interface IQueuePublisher : IDisposable
     {
+        void Publish(OutgoingMessage message);
         void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox);
+        Task PublishAsync(OutgoingMessage message);
         Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox);
         void Publish(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox);
         Task PublishAsync(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox);
