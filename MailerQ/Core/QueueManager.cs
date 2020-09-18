@@ -42,19 +42,19 @@ namespace MailerQ
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
         }
 
-        public void Publish(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
-            foreach (var message in messages)
+            foreach (var outgoingMessage in outgoingMessages)
             {
-                Publish(message, queueName);
+                Publish(outgoingMessage, queueName);
             }
         }
 
-        public async Task PublishAsync(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox)
+        public async Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
-            foreach (var message in messages)
+            foreach (var outgoingMessage in outgoingMessages)
             {
-                await PublishAsync(message, queueName);
+                await PublishAsync(outgoingMessage, queueName);
             }
         }
 

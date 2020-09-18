@@ -9,7 +9,7 @@ namespace MailerQ
     {
         void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox);
         Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox);
-        void Publish(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox);
-        Task PublishAsync(IEnumerable<OutgoingMessage> messages, string queueName = QueueName.Outbox);
+        void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox);
+        Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox);
     }
 }
