@@ -59,11 +59,7 @@ namespace MailerQ
             var body = CreateBody(outgoingMessage);
 
             _channel.BasicPublish(exchange: "", routingKey: queueName, mandatory: false, properties, body);
-
-            if (_settings.PublisherConfirms)
-            {
-                _channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, _settings.Timeout));
-            }
+            WaitConfirmation();
         }
 
         public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
@@ -82,7 +78,11 @@ namespace MailerQ
             }
 
             batch.Publish();
+            WaitConfirmation();
+        }
 
+        private void WaitConfirmation()
+        {
             if (_settings.PublisherConfirms)
             {
                 _channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, _settings.Timeout));
