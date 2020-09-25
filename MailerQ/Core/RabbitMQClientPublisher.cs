@@ -85,7 +85,15 @@ namespace MailerQ
         {
             if (_settings.PublisherConfirms)
             {
-                _channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, _settings.Timeout));
+                var confirmed = _channel.WaitForConfirms(new TimeSpan(0, 0, _settings.Timeout), out var timedout);
+                if (timedout)
+                {
+                    throw new TimeoutException("No Ack or Nack recived before timeout");
+                }
+                if (!confirmed)
+                {
+                    throw new Exception("Message publish was explicitly Nacked");
+                }
             }
         }
 
