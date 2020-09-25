@@ -52,8 +52,6 @@ namespace MailerQ
 
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
-            _channel.QueueDeclarePassive(queueName);
-
             var properties = _channel.CreateBasicProperties();
             properties.Persistent = _settings.PersistentMessages;
             properties.Priority = (byte)outgoingMessage.Priority;
@@ -61,17 +59,11 @@ namespace MailerQ
             var body = CreateBody(outgoingMessage);
 
             _channel.BasicPublish(exchange: "", routingKey: queueName, mandatory: false, properties, body);
-
-            if (_settings.PublisherConfirms)
-            {
-                _channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, _settings.Timeout));
-            }
+            WaitConfirmation();
         }
 
         public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
-            _channel.QueueDeclarePassive(queueName);
-
             var batch = _channel.CreateBasicPublishBatch();
 
             foreach (var outgoingMessage in outgoingMessages)
@@ -86,10 +78,22 @@ namespace MailerQ
             }
 
             batch.Publish();
+            WaitConfirmation();
+        }
 
+        private void WaitConfirmation()
+        {
             if (_settings.PublisherConfirms)
             {
-                _channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, _settings.Timeout));
+                var confirmed = _channel.WaitForConfirms(new TimeSpan(0, 0, _settings.Timeout), out var timedout);
+                if (timedout)
+                {
+                    throw new TimeoutException("No Ack or Nack recived before timeout");
+                }
+                if (!confirmed)
+                {
+                    throw new Exception("Message publish was explicitly Nacked");
+                }
             }
         }
 
