@@ -52,8 +52,6 @@ namespace MailerQ
 
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
-            _channel.QueueDeclarePassive(queueName);
-
             var properties = _channel.CreateBasicProperties();
             properties.Persistent = _settings.PersistentMessages;
             properties.Priority = (byte)outgoingMessage.Priority;
@@ -70,8 +68,6 @@ namespace MailerQ
 
         public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
-            _channel.QueueDeclarePassive(queueName);
-
             var batch = _channel.CreateBasicPublishBatch();
 
             foreach (var outgoingMessage in outgoingMessages)
