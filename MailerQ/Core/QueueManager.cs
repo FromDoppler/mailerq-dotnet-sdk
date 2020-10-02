@@ -64,7 +64,6 @@ namespace MailerQ
             if (outgoingMessage.Priority.HasValue)
             {
                 message.Properties.Priority = (byte)outgoingMessage.Priority;
-                message.Properties.PriorityPresent = outgoingMessage.Priority.HasValue;
             }
             return message;
         }
