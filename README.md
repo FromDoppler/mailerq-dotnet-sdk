@@ -2,6 +2,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 ![.NET Core](https://github.com/MakingSense/mailerq-dotnet-sdk/workflows/.NET%20Core/badge.svg)
 [![Build status](https://ci.appveyor.com/api/projects/status/pgvy8ad3gl7xp5fs?svg=true)](https://ci.appveyor.com/project/DopplerRelay/mailerq-net-api)
+[![codecov](https://codecov.io/gh/MakingSense/mailerq-dotnet-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/MakingSense/mailerq-dotnet-sdk)
 
 # mailerq-dotnet-sdk
 

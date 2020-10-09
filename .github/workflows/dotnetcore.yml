@@ -20,7 +20,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.102
+        dotnet-version: 3.1.x
     - name: Restore tools
       run: dotnet tool restore
     - name: Verify code format
@@ -28,4 +28,5 @@ jobs:
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: Test with dotnet
-      run: dotnet test --no-build --configuration Release
+      run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage"
+    - uses: codecov/codecov-action@v1
