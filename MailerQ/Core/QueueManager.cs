@@ -1,5 +1,6 @@
 ﻿using EasyNetQ;
 using EasyNetQ.ConnectionString;
+using EasyNetQ.Internals;
 using EasyNetQ.Topology;
 using MailerQ.Conventions;
 using Microsoft.Extensions.Options;
