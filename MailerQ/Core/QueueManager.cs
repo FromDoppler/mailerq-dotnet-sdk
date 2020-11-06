@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MailerQ
 {
-    public class QueueManager : IQueueManager
+    public class QueueManager : IQueueManager, IQueueDeclarer
     {
         private readonly IAdvancedBus bus;
         private readonly MailerQConfiguration configuration;
@@ -29,6 +29,29 @@ namespace MailerQ
         }
 
         public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
+
+        public void DeclareDeadLetterQueueForPublish(
+            string name,
+            bool addQueueNamePrefix = true,
+            bool durable = true,
+            int messageTtl = 10,
+            int maxPriority = (int)Priority.High,
+            string deadLetterExchange = "",
+            string deadLetterRoutingKey = QueueName.Outbox)
+        {
+            if (addQueueNamePrefix)
+            {
+                name = $"{configuration.QueuesNamePrefix}{name}";
+            }
+
+            bus.QueueDeclare(
+                name: name,
+                durable: durable,
+                perQueueMessageTtl: messageTtl,
+                maxPriority: maxPriority,
+                deadLetterExchange: deadLetterExchange,
+                deadLetterRoutingKey: deadLetterRoutingKey);
+        }
 
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
