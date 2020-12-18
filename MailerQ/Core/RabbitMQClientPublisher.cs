@@ -85,7 +85,7 @@ namespace MailerQ
         {
             if (_settings.PublisherConfirms)
             {
-                var confirmed = _channel.WaitForConfirms(new TimeSpan(0, 0, _settings.Timeout), out var timedout);
+                var confirmed = _channel.WaitForConfirms(_settings.Timeout, out var timedout);
                 if (timedout)
                 {
                     throw new TimeoutException("No Ack or Nack recived before timeout");
