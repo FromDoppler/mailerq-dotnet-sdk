@@ -45,13 +45,15 @@ namespace MailerQ
                 name = $"{configuration.QueuesNamePrefix}{name}";
             }
 
-            bus.QueueDeclare(
-                name: name,
-                durable: durable,
-                perQueueMessageTtl: messageTtl,
-                maxPriority: maxPriority,
-                deadLetterExchange: deadLetterExchange,
-                deadLetterRoutingKey: deadLetterRoutingKey);
+            bus.QueueDeclare(name: name, config =>
+            {
+                config
+                    .AsDurable(true)
+                    .WithMessageTtl(new TimeSpan(0, 0, 0, 0, messageTtl))
+                    .WithMaxPriority(maxPriority)
+                    .WithDeadLetterExchange(new Exchange(deadLetterExchange))
+                    .WithDeadLetterRoutingKey(deadLetterRoutingKey);
+            });
         }
 
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
