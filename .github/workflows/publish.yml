@@ -28,7 +28,7 @@ jobs:
     - name: Pack
       run: dotnet pack --output ./artifacts --configuration Release -p:Version=${VERSION:1}
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v2.2.3
       with:
         name: artifacts
         path: ./artifacts
