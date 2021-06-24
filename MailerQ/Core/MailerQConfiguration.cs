@@ -13,5 +13,15 @@
         public string QueuesNamePrefix { get; set; }
 
         public string MessageStorageUrl { get; set; }
+
+        /// <summary>
+        /// The base url of the MailerQ Rest Api instance
+        /// </summary>
+        public string RestApiUrl { get; set; }
+
+        /// <summary>
+        /// The authorization token to use MailerQ Rest Api
+        /// </summary>
+        public string RestApiToken { get; set; }
     }
 }
