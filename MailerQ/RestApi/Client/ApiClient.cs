@@ -1,5 +1,4 @@
-﻿using EasyNetQ;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace MailerQ.ApiClient
+namespace MailerQ.RestApi.Client
 {
     public class ApiClient : IApiClient
     {

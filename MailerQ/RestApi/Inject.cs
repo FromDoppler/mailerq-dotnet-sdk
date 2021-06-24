@@ -4,7 +4,7 @@ using System.Text;
 using MailerQ.Mime;
 using Newtonsoft.Json;
 
-namespace MailerQ.ApiClient
+namespace MailerQ.RestApi
 {
     [JsonObject(
     NamingStrategyType = typeof(LowercaseNamingStrategy),

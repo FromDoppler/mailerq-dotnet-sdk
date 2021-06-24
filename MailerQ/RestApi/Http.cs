@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MailerQ.ApiClient
+namespace MailerQ.RestApi
 {
     /// <summary>
     /// Property of injected message that hold information about who connected and the name of the authentication token.

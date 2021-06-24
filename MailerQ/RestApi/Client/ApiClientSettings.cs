@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MailerQ.ApiClient
+namespace MailerQ.RestApi.Client
 {
     public class ApiClientSettings
     {
