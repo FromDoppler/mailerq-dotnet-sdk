@@ -1,4 +1,4 @@
-name: .NET Core Build and Test 
+name: .NET
 
 on:
   push:
@@ -17,10 +17,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: '5.0.x'
     - name: Restore tools
       run: dotnet tool restore
     - name: Verify code format
