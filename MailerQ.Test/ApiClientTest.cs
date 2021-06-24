@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MailerQ.RestApi.Client;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MailerQ.ApiClient.Test
+namespace MailerQ.RestApi.Test
 {
     public class ApiClientTest
     {
