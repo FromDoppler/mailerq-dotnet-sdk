@@ -15,7 +15,7 @@ namespace MailerQ.RestApi
         /// <param name="restApiRequest">Specific definition of request the Rest API</param>
         /// <param name="cancellationToken">The request cancellationToken</param>
         /// <returns>Response information returned on the request including the collection of instances of the model</returns>
-        Task<IRestApiResponse<T>> Get<T>(
+        Task<IRestApiResponse<T>> GetAsync<T>(
             IRestApiRequest<T> restApiRequest = default,
             CancellationToken cancellationToken = default) where T : IRestApiModel;
 
@@ -26,7 +26,7 @@ namespace MailerQ.RestApi
         /// <param name="model">Object model to send in the request body</param>
         /// <param name="cancellationToken">The request cancellationToken</param>
         /// <returns>Response information returned on the request</returns>
-        Task<IRestApiResponse<T>> Post<T>(T model, CancellationToken cancellationToken = default) where T : IRestApiModel;
+        Task<IRestApiResponse<T>> PostAsync<T>(T model, CancellationToken cancellationToken = default) where T : IRestApiModel;
 
         /// <summary>
         /// Request an HTTP Delete remove an instance of the model
@@ -35,6 +35,6 @@ namespace MailerQ.RestApi
         /// <param name="model">Object model to send in the request body</param>
         /// <param name="cancellationToken">The request cancellationToken</param>
         /// <returns>Response information returned on the request</returns>
-        Task<IRestApiResponse<T>> Delete<T>(T model, CancellationToken cancellationToken = default) where T : IRestApiModel;
+        Task<IRestApiResponse<T>> DeleteAsync<T>(T model, CancellationToken cancellationToken = default) where T : IRestApiModel;
     }
 }
