@@ -4,7 +4,7 @@ using System;
 namespace MailerQ.RestApi
 {
     /// <summary>
-    /// IP Address
+    /// An Internet Protocol Address of one Pool
     /// MailerQ offers IP Pools for easy management of your sending IP addresses.
     /// </summary>
     /// <remarks>Get method requiere indicate the pool name as request parameter</remarks>
@@ -26,10 +26,7 @@ namespace MailerQ.RestApi
         public string Name { get; set; }
     }
 
-    /// <summary>
-    /// IP Address
-    /// MailerQ offers IP Pools for easy management of your sending IP addresses.
-    /// </summary>
+    /// <inheritdoc />
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
