@@ -24,7 +24,7 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class Suppression
+    public class Suppression : IRestApiModel
     {
         /// <summary>
         /// The domain or address to be suppressed

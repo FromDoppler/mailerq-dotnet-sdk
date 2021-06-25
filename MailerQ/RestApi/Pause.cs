@@ -9,7 +9,7 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class Pause
+    public class Pause : IRestApiModel
     {
         /// <summary>
         /// Pool that the pause applies to.
