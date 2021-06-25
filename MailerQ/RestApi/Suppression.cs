@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MailerQ.RestApi
 {
@@ -35,6 +36,7 @@ namespace MailerQ.RestApi
         /// <summary>
         /// ("address", "domain")	Whether the given value is a domain or a full address
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter), typeof(LowercaseNamingStrategy))]
         public SuppressionTypes Type { get; set; }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 
 namespace MailerQ.RestApi
@@ -71,6 +72,7 @@ namespace MailerQ.RestApi
         /// The protocol to use to connect to the external server
         /// </summary>
         [JsonProperty(Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public ExternalIpProtocol Protocol { get; set; }
     }
 }
