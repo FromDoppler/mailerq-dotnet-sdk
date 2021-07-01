@@ -257,5 +257,34 @@ namespace MailerQ.RestApi.Test
             // Assert
             Assert.NotNull(result.Content);
         }
+
+        [Fact]
+        public async Task Get_PoolIP_should_add_query_string_parameter_of_the_pool_name()
+        {
+            // Arrange
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+            };
+            var httpMessageHandlerMock = CreateHttpMessageHandlerMock(httpResponseMessage);
+            var httpClientFactoryMock = CreateHttpClientFactoryMock(httpMessageHandlerMock.Object);
+            var sut = CreateSut(httpClientFactory: httpClientFactoryMock.Object);
+
+            var pool = specimens.Create<Pool>();
+            var poolIPGetRequest = new PoolIPGetRequest(pool.Name);
+
+            var expectedQueryString = $"name={pool.Name}";
+
+            // Act
+            var result = await sut.GetAsync(poolIPGetRequest);
+
+            // Assert
+            httpMessageHandlerMock.Protected().Verify(
+               nameof(HttpClient.SendAsync),
+               Times.Exactly(1),
+               ItExpr.Is<HttpRequestMessage>(request => request.RequestUri.Query.Contains(expectedQueryString)),
+               ItExpr.IsAny<CancellationToken>()
+            );
+        }
     }
 }
