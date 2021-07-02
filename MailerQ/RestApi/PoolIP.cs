@@ -18,7 +18,7 @@ namespace MailerQ.RestApi
         /// The IP address
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Ip { get; set; }
+        public string LocalIp { get; set; }
         /// <summary>
         /// The name of the pool
         /// </summary>
