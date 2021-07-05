@@ -58,7 +58,7 @@ namespace MailerQ
         /// </summary>
         public bool Report { get; set; }
 
-        /// <summary>        
+        /// <summary>
         /// Rest API info (only used when received from Rest Api)
         /// </summary>
         public RestApiInfo Http { get; set; }
