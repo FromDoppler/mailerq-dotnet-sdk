@@ -6,10 +6,19 @@ using System.Threading.Tasks;
 
 namespace MailerQ.MessageStore
 {
+    // TODO: convert to a MessageStorageFactory
+
+    /// <summary>
+    /// A MailerQ MIME message storage
+    /// </summary>
     public class MessageStorage : IMessageStorage
     {
         private readonly IMessageStorage storageEngine;
 
+        /// <summary>
+        /// Initializes a new instance of MailerQ MIME message storage
+        /// </summary>
+        /// <param name="options"></param>
         public MessageStorage(IOptions<MailerQConfiguration> options)
         {
             var uri = options.Value.MessageStorageUrl;
@@ -38,6 +47,7 @@ namespace MailerQ.MessageStore
             }
         }
 
+        /// <inheritdoc/>
         public Task<string> InsertAsync(string message, int secondsToExpire = IMessageStorage.DefaultSecondsToExpire, CancellationToken cancellationToken = default)
         {
             return storageEngine.InsertAsync(message, secondsToExpire, cancellationToken);

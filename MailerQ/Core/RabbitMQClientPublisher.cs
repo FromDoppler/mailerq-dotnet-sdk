@@ -13,12 +13,20 @@ using System.Threading.Tasks;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// A queue message publisher
+    /// </summary>
+    /// <remarks>Implemented with RabbitMQ.Client</remarks>
     public sealed class RabbitMQClientPublisher : IQueuePublisher
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly ConnectionConfiguration _settings;
 
+        /// <summary>
+        /// Initializes a new instance of queue message publisher
+        /// </summary>
+        /// <param name="options"></param>
         public RabbitMQClientPublisher(IOptions<MailerQConfiguration> options)
         {
             var connectionStringParser = new ConnectionStringParser();
@@ -50,6 +58,7 @@ namespace MailerQ
             }
         }
 
+        /// <inheritdoc/>
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var properties = _channel.CreateBasicProperties();
@@ -62,6 +71,7 @@ namespace MailerQ
             WaitConfirmation();
         }
 
+        /// <inheritdoc/>
         public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
             var batch = _channel.CreateBasicPublishBatch();
@@ -97,18 +107,21 @@ namespace MailerQ
             }
         }
 
+        /// <inheritdoc/>
         public Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             Publish(outgoingMessage, queueName);
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         public Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
             Publish(outgoingMessages, queueName);
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             _channel.Dispose();

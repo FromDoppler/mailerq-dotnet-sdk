@@ -2,6 +2,9 @@
 
 namespace MailerQ.Mime
 {
+    /// <summary>
+    /// Attachment file in the MIME message
+    /// </summary>
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore

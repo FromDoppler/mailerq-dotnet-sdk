@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// A message that MailerQ must attempt to sent
+    /// </summary>
     [Queue(Conventions.QueueName.Outbox)]
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
@@ -135,8 +138,14 @@ namespace MailerQ
         public int? Priority { get; set; }
 
         // TODO: verify if Extracted could be a more specify class insted object
+        /// <summary>
+        /// Values that MailerQ can extrac from the MIME message
+        /// </summary>
         public object Extracted { get; set; }
 
+        /// <summary>
+        /// Date and time of the last time that MailerQ saw the message
+        /// </summary>
         public DateTime? Seen { get; set; }
     }
 }

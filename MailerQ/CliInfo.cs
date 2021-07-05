@@ -12,10 +12,19 @@ namespace MailerQ
     )]
     public class CliInfo
     {
+        /// <summary>
+        /// Binary full path of the excuted command
+        /// </summary>
         public string Command { get; set; }
 
+        /// <summary>
+        /// Collection of arguments passed to the command
+        /// </summary>
         public ICollection<string> Arguments { get; set; }
 
+        /// <summary>
+        /// User that execute the command
+        /// </summary>
         public string User { get; set; }
     }
 }

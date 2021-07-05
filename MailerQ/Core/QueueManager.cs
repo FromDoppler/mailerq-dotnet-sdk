@@ -12,11 +12,19 @@ using System.Threading.Tasks;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// A queue manager
+    /// </summary>
+    /// <remarks>Implemented with EasyNetQ</remarks>
     public class QueueManager : IQueueManager, IQueueDeclarer
     {
         private readonly IAdvancedBus bus;
         private readonly MailerQConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of QueueManager
+        /// </summary>
+        /// <param name="configuration">The MailerQ configuration</param>
         public QueueManager(MailerQConfiguration configuration)
         {
             this.configuration = configuration;
@@ -29,8 +37,13 @@ namespace MailerQ
             bus = RabbitHutch.CreateBus(connectionConfiguration, x => { }).Advanced;
         }
 
+        /// <summary>
+        /// Initializes a new instance of QueueManager
+        /// </summary>
+        /// <param name="options">The MailerQ configuration as Option pattern</param>
         public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
+        /// <inheritdoc/>
         public void DeclareDeadLetterQueueForPublish(
             string name,
             bool addQueueNamePrefix = true,
@@ -56,18 +69,21 @@ namespace MailerQ
             });
         }
 
+        /// <inheritdoc/>
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             bus.Publish(Exchange.GetDefault(), queueName, false, message);
         }
 
+        /// <inheritdoc/>
         public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
             await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
         }
 
+        /// <inheritdoc/>
         public void Publish(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
             foreach (var outgoingMessage in outgoingMessages)
@@ -76,6 +92,7 @@ namespace MailerQ
             }
         }
 
+        /// <inheritdoc/>
         public async Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
         {
             foreach (var outgoingMessage in outgoingMessages)
@@ -94,12 +111,14 @@ namespace MailerQ
             return message;
         }
 
+        /// <inheritdoc/>
         public IDisposable Subscribe<T>(Action<T> action) where T : OutgoingMessage
         {
             var queueName = GetQueueName<T>();
             return Subscribe(action, queueName);
         }
 
+        /// <inheritdoc/>
         public IDisposable Subscribe<T>(Action<T> action, string queueName) where T : OutgoingMessage
         {
             var queue = bus.QueueDeclare(queueName);
@@ -111,12 +130,14 @@ namespace MailerQ
             });
         }
 
+        /// <inheritdoc/>
         public IDisposable SubscribeAsync<T>(Func<T, Task> action) where T : OutgoingMessage
         {
             var queueName = GetQueueName<T>();
             return SubscribeAsync(action, queueName);
         }
 
+        /// <inheritdoc/>
         public IDisposable SubscribeAsync<T>(Func<T, Task> action, string queueName) where T : OutgoingMessage
         {
             var queue = bus.QueueDeclare(queueName);
@@ -134,6 +155,7 @@ namespace MailerQ
             return $"{configuration.QueuesNamePrefix}{queueName}";
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             bus.Dispose();

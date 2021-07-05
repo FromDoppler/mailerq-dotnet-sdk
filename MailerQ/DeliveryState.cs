@@ -1,5 +1,8 @@
 ﻿namespace MailerQ
 {
+    /// <summary>
+    /// Delivery state that generate the result of the attempt
+    /// </summary>
     public enum DeliveryState
     {
         /// <summary>
