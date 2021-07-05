@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MailerQ.RestApi
 {
@@ -24,7 +25,7 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class Suppression
+    public class Suppression : IRestApiModel
     {
         /// <summary>
         /// The domain or address to be suppressed
@@ -35,6 +36,7 @@ namespace MailerQ.RestApi
         /// <summary>
         /// ("address", "domain")	Whether the given value is a domain or a full address
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter), typeof(LowercaseNamingStrategy))]
         public SuppressionTypes Type { get; set; }
 
         /// <summary>

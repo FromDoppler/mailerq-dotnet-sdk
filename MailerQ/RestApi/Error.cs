@@ -9,7 +9,7 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class Error
+    public class Error : IRestApiModel
     {
         /// <summary>
         /// Numeric error code between 200 and 599 (smtp error codes).

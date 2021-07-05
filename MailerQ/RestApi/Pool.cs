@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace MailerQ.RestApi
 {
@@ -10,7 +11,7 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class IpPool
+    public class Pool : IRestApiModel
     {
         /// <summary>
         /// The name of the pool
@@ -25,25 +26,13 @@ namespace MailerQ.RestApi
     }
 
     /// <summary>
-    /// IP Address
+    /// Pool of IPs
     /// MailerQ offers IP Pools for easy management of your sending IP addresses.
     /// </summary>
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    public class IpAddress
-    {
-        /// <summary>
-        /// The IP address
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string Ip { get; set; }
-        /// <summary>
-        /// The name of the pool
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string Name { get; set; }
-
-    }
+    [Obsolete("User Pool class")]
+    public class IpPool : Pool { }
 }
