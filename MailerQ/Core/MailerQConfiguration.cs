@@ -11,9 +11,9 @@
         public string RabbitConnectionString { get; set; }
 
         /// <summary>
-        /// Password for connect to RabbitMQ. 
-        /// If RabbitConnectionString has defined password parameter, will be replaced with this value if it is not empty.
+        /// The secret passworkd of the user indicate in the <see cref="RabbitConnectionString"/>
         /// </summary>
+        /// <remarks>If RabbitConnectionString has defined password parameter, will be replaced with this value if it is not empty.</remarks>
         public string RabbitPassword { get; set; }
 
         /// <summary>
