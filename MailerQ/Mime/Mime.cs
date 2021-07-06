@@ -89,12 +89,12 @@ namespace MailerQ.Mime
         public object Content { get; set; }
 
         /// <summary>
-        /// Custom CSS settings to be added to the <body> tag.
+        /// Custom CSS settings to be added to the body tag.
         /// </summary>
         public object Css { get; set; }
 
         /// <summary>
-        /// Custom attributes to be added to the <body> tag.
+        /// Custom attributes to be added to the body tag.
         /// </summary>
         public object Attributes { get; set; }
 

@@ -1,5 +1,8 @@
 ﻿namespace MailerQ
 {
+    /// <summary>
+    /// Result type of delivery attempt
+    /// </summary>
     public enum ResultType
     {
         /// <summary>

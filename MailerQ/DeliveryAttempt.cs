@@ -13,7 +13,7 @@ namespace MailerQ
         public DeliveryState State { get; set; }
 
         /// <summary>
-        /// Type or result(accepted, timeout, lost, error, invalid)
+        /// Type of result(accepted, timeout, lost, error, invalid)
         /// </summary>
         public ResultType Result { get; set; }
 

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// Incoming messages received by MailerQ
+    /// </summary>
     [Queue(Conventions.QueueName.Inbox)]
     [JsonObject(
     NamingStrategyType = typeof(LowercaseNamingStrategy),
@@ -45,26 +48,42 @@ namespace MailerQ
 
         // TODO: verify if MTA and Report should be part of OutgoingMessage
 
+        /// <summary>
+        /// The Mail Transfer Agent that the message comes from
+        /// </summary>
         public string MTA { get; set; }
 
+        /// <summary>
+        /// If the message require a DSN report
+        /// </summary>
         public bool Report { get; set; }
 
-        /// <summary>        
+        /// <summary>
         /// Rest API info (only used when received from Rest Api)
         /// </summary>
         public RestApiInfo Http { get; set; }
     }
 
+    /// <summary>
+    /// <inheritdoc/> holding a delivery report
+    /// </summary>
     [Queue(Conventions.QueueName.Reports)]
     public class ReportMessage : IncomingMessage
     {
     }
 
+    /// <summary>
+    /// Outgoing Delivery Status Notification messages
+    /// </summary>
     [Queue(Conventions.QueueName.DSN)]
     public class DSNMessage : IncomingMessage
     {
+        // FIX: change the base type to Outgoing message
     }
 
+    /// <summary>
+    /// <inheritdoc/> that match a local address
+    /// </summary>
     [Queue(Conventions.QueueName.Local)]
     public class LocalMessage : IncomingMessage
     {

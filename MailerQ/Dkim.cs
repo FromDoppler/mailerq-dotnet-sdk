@@ -4,20 +4,38 @@ using System.Collections.Generic;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// Private DomainKeys Identified Mail
+    /// </summary>
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
     public class Dkim
     {
+        /// <summary>
+        /// The domain of the keys
+        /// </summary>
         public string Domain { get; set; }
 
+        /// <summary>
+        /// Selector to perform a DNS lookup
+        /// </summary>
         public string Selector { get; set; }
 
+        /// <summary>
+        /// RSA private keys
+        /// </summary>
         public string Key { get; set; }
 
+        /// <summary>
+        /// When the Dkim expire
+        /// </summary>
         public DateTime? Expire { get; set; }
 
+        /// <summary>
+        /// Extra custom headers to sign
+        /// </summary>
         public List<string> Headers { get; set; }
 
         /// <summary>

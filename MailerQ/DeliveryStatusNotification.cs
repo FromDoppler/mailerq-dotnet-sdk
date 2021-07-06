@@ -4,25 +4,52 @@ using System.Collections.Generic;
 
 namespace MailerQ
 {
+    /// <summary>
+    /// DSN setting that says that a delivery status notification should be sent back to the original envelope address
+    /// </summary>
     [JsonObject(
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
     public class DeliveryStatusNotification
     {
+        /// <summary>
+        /// Events type that trigger a notification
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum NotifyType
         {
+            /// <summary>
+            /// A failure delivery
+            /// </summary>
             FAILURE,
+            /// <summary>
+            /// A delay delivery
+            /// </summary>
             DELAY,
+            /// <summary>
+            /// A success delivery
+            /// </summary>
             SUCCESS,
+            /// <summary>
+            /// A never delivery
+            /// </summary>
             NEVER
         }
 
+        /// <summary>
+        /// Return type for Delivery Status Notification
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public enum RetType
         {
+            /// <summary>
+            /// Just the headers
+            /// </summary>
             HDRS,
+            /// <summary>
+            /// Full original mail
+            /// </summary>
             FULL,
         }
 
