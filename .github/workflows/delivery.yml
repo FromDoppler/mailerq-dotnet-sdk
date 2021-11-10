@@ -24,15 +24,15 @@ jobs:
     - name: Test with dotnet
       run: dotnet test --no-build --configuration Release
     - name: Determine version from tag
-      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
+      run: echo "VERSION=$(git describe --tags --dirty)" >> $GITHUB_ENV
     - name: Pack
-      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${VERSION:1}
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${env.VERSION:1}
     - name: Upload artifact
       uses: actions/upload-artifact@v2.2.4
       with:
         name: artifacts
         path: ./artifacts
-    - name: Publish to AppVeyor nuget registry
-      run: dotnet nuget push ./artifacts/*.nupkg -Source 'https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package' -ApiKey ${{secrets.APPVEYOR_NUGET_API_KEY}}
-    - name: Publish to github
-      run: dotnet nuget push "./artifacts/MailerQ.${VERSION:1}.nupkg" --source 'github'
+    - name: Publish nuget to AppVeyor nuget registry
+      run: dotnet nuget push ./artifacts/*.nupkg --skip-duplicate --api-key ${{secrets.APPVEYOR_NUGET_API_KEY}} --source 'https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package'
+    - name: Publish nuget to to GitHub registry
+      run: dotnet nuget push ./artifacts/*.nupkg --skip-duplicate --api-key ${{secrets.GITHUB_NUGET_API_KEY}} --source 'https://nuget.pkg.github.com/FromDoppler/index.json'
