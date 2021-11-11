@@ -26,7 +26,7 @@ jobs:
     - name: Determine version from tag
       run: echo "VERSION=$(git describe --tags --dirty)" >> $GITHUB_ENV
     - name: Pack
-      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${env.VERSION:1}
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=${{env.VERSION:1}}
     - name: Upload artifact
       uses: actions/upload-artifact@v2.2.4
       with:
