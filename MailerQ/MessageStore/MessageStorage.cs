@@ -38,15 +38,12 @@ namespace MailerQ.MessageStore
 
         private IMessageStorage CreateConcretStorage(StorageEngines storageEngine, string uri)
         {
-            switch (storageEngine)
+            return storageEngine switch
             {
-                case StorageEngines.MongoDB:
-                    return new MongoDBMessageStorage(uri);
-                case StorageEngines.S3:
-                    return new S3MessageStorage(uri);
-                default:
-                    throw new NotImplementedException($"{storageEngine} message storage engine is not implement yet.");
-            }
+                StorageEngines.MongoDB => new MongoDBMessageStorage(uri),
+                StorageEngines.S3 => new S3MessageStorage(uri),
+                _ => throw new NotImplementedException($"{storageEngine} message storage engine is not implement yet."),
+            };
         }
 
         /// <inheritdoc/>
