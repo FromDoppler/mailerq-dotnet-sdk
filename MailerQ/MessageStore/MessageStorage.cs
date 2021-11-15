@@ -42,6 +42,8 @@ namespace MailerQ.MessageStore
             {
                 case StorageEngines.MongoDB:
                     return new MongoDBMessageStorage(uri);
+                case StorageEngines.S3:
+                    return new S3MessageStorage(uri);
                 default:
                     throw new NotImplementedException($"{storageEngine} message storage engine is not implement yet.");
             }
