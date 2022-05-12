@@ -52,5 +52,10 @@ namespace MailerQ
         /// A DKIM can be signed using different forms of canonicalization. Default is relaxed/simple.
         /// </summary>
         public string Canonicalization { get; set; }
+
+        /// <summary>
+        /// Oversign headers
+        /// </summary>
+        public bool? Oversign { get; set; }
     }
 }
