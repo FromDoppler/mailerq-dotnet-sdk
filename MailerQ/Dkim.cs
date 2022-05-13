@@ -31,6 +31,7 @@ namespace MailerQ
         /// <summary>
         /// When the Dkim expire
         /// </summary>
+        [JsonConverter(typeof(Json.DateTimeConverter))]
         public DateTime? Expire { get; set; }
 
         /// <summary>
