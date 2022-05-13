@@ -79,6 +79,7 @@ namespace MailerQ
         /// <summary>
         /// Time until which a delivery should be retried
         /// </summary>
+        [JsonConverter(typeof(Json.DateTimeConverter))]
         public DateTime? MaxDeliverTime { get; set; }
 
         /// <summary>
@@ -146,6 +147,7 @@ namespace MailerQ
         /// <summary>
         /// Date and time of the last time that MailerQ saw the message
         /// </summary>
+        [JsonConverter(typeof(Json.DateTimeConverter))]
         public DateTime? Seen { get; set; }
     }
 }
