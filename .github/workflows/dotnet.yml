@@ -54,6 +54,6 @@ jobs:
       with:
         name: artifacts
         path: ./artifacts
-    - name: Delivery nuget to AppVeyor registry
+    - name: Delivery nuget to Github Packages
       if: ${{ github.actor != 'dependabot[bot]' }}
-      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{secrets.APPVEYOR_NUGET_API_KEY}} --source 'https://ci.appveyor.com/nuget/makingsense-aspnet/api/v2/package'
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source 'https://nuget.pkg.github.com/MakingSense/index.json'
