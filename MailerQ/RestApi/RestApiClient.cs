@@ -50,7 +50,7 @@ namespace MailerQ.RestApi
 
             var endpointName = $"{typeName.ToLowerInvariant()}s";
 
-            if (type == typeof(Inject))
+            if (type == typeof(Inject) || type == typeof(OutgoingMessage))
             {
                 endpointName = "inject";
             }
