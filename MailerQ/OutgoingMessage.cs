@@ -14,6 +14,7 @@ namespace MailerQ
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
     public class OutgoingMessage
+        : RestApi.IRestApiModel
     {
         /// <summary>
         /// Unique message id generated for the mail
