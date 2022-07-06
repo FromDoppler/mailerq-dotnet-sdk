@@ -66,6 +66,7 @@ namespace MailerQ.RestApi.Test
         public static IEnumerable<object[]> RestApiModelSpecimens()
         {
             yield return new object[] { specimens.Create<Inject>() };
+            yield return new object[] { specimens.Create<OutgoingMessage>() };
             yield return new object[] { specimens.Create<Pause>() };
             yield return new object[] { specimens.Create<Error>() };
             yield return new object[] { specimens.Create<Pool>() };
@@ -80,6 +81,7 @@ namespace MailerQ.RestApi.Test
         public static IEnumerable<object[]> RestApiModelEndpointSpecimens()
         {
             yield return new object[] { specimens.Create<Inject>(), $"{Version}/inject" };
+            yield return new object[] { specimens.Create<OutgoingMessage>(), $"{Version}/inject" };
             yield return new object[] { specimens.Create<Pause>(), $"{Version}/pauses" };
             yield return new object[] { specimens.Create<Error>(), $"{Version}/errors" };
             yield return new object[] { specimens.Create<Pool>(), $"{Version}/pools" };
