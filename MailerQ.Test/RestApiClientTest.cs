@@ -128,6 +128,7 @@ namespace MailerQ.RestApi.Test
             // Arrange
             var httpResponseMessage = new HttpResponseMessage
             {
+                ReasonPhrase = model.ToString(),
                 StatusCode = specimens.Create<HttpStatusCode>(),
             };
 
@@ -190,6 +191,7 @@ namespace MailerQ.RestApi.Test
         {
             // Arrange
             var exception = specimens.Create<Exception>();
+            exception.Data.Add("object", model);
 
             var httpMessageHandlerMock = CreateHttpMessageHandlerMock(exception);
             var httpClientFactoryMock = CreateHttpClientFactoryMock(httpMessageHandlerMock.Object);
