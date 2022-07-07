@@ -14,8 +14,7 @@ We use the [.NET coding convention settings](https://docs.microsoft.com/en-us/vi
 
 - Command Line
 
-1. Run `dotnet tool restore` once.
-2. Run `dotnet format` command before commit.
+1. Run `dotnet format` command before commit.
 
 - Visual Studio:
 
