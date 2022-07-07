@@ -16,9 +16,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailerQ.Test", "MailerQ.Test\MailerQ.Test.csproj", "{C8E909D0-F7A9-4CB1-AC26-4E811CBBE0E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GithubActions", "GithubActions", "{6CB15229-679D-42BD-9AE3-019918B70A34}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflow", "Workflow", "{434E2510-BD12-454A-96A8-27AA32A56CE5}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\bump-version.yml = .github\workflows\bump-version.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
