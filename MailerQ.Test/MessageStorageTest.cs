@@ -71,6 +71,7 @@ namespace MailerQ.MessageStore.Test
         [InlineData(SimpleValidMongoUri)]
         [InlineData("mongodb://mongos1.example.com,mongos2.example.com/?readPreference=secondary")]
         [InlineData("mongodb://mongos1.example.com,mongos2.example.com/database?readPreference=secondary")]
+        [InlineData("s3://accesskey:secretkey@region/bucketname")]
         [Theory]
         public void Constructor_should_create_instance_with_valid_supported_engine_uri(string uri)
         {

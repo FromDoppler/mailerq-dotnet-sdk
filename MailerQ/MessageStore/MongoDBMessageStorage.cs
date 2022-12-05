@@ -10,7 +10,6 @@ namespace MailerQ.MessageStore
     internal class MongoDBMessageStorage : IMessageStorage
     {
         private const int MessageMaxSuppportedSize = 15728640; // 15 MB
-        private const string DataBase = "mailerq";
         private readonly string Collection = "mime";
         private readonly IMongoCollection<BsonDocument> messages;
 
@@ -18,7 +17,7 @@ namespace MailerQ.MessageStore
         {
             var mongoUrl = MongoUrl.Create(url);
             var mongoClient = new MongoClient(mongoUrl);
-            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName ?? DataBase);
+            var database = mongoClient.GetDatabase(mongoUrl.DatabaseName ?? IMessageStorage.DefaultStorageName);
             messages = database.GetCollection<BsonDocument>(Collection);
         }
 

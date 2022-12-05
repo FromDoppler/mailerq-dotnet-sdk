@@ -18,6 +18,11 @@ namespace MailerQ.MessageStore
         Task<string> InsertAsync(string message, int secondsToExpire = DefaultSecondsToExpire, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// The default storage name to use if not indicated explicitly
+        /// </summary>
+        const string DefaultStorageName = "mailerq";
+
+        /// <summary>
         /// Message time to live into the storage engine before expire. Default 25 hours
         /// </summary>
         const int DefaultSecondsToExpire = 90000;
