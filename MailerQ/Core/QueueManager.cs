@@ -16,7 +16,7 @@ namespace MailerQ
     /// A queue manager
     /// </summary>
     /// <remarks>Implemented with EasyNetQ</remarks>
-    public class QueueManager : IQueueManager, IQueueDeclarer
+    public class QueueManager : IQueuePublisher, IQueueSubscriber, IQueueDeclarer
     {
         private readonly IAdvancedBus bus;
         private readonly MailerQConfiguration configuration;

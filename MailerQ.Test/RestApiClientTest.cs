@@ -70,12 +70,9 @@ namespace MailerQ.RestApi.Test
             yield return new object[] { specimens.Create<Pause>() };
             yield return new object[] { specimens.Create<Error>() };
             yield return new object[] { specimens.Create<Pool>() };
-            yield return new object[] { specimens.Create<IpPool>() };
             yield return new object[] { specimens.Create<PoolIP>() };
-            yield return new object[] { specimens.Create<IpAddress>() };
             yield return new object[] { specimens.Create<Suppression>() };
             yield return new object[] { specimens.Create<ExternalMTA>() };
-            yield return new object[] { specimens.Create<ExternalIp>() };
         }
 
         public static IEnumerable<object[]> RestApiModelEndpointSpecimens()
@@ -85,12 +82,9 @@ namespace MailerQ.RestApi.Test
             yield return new object[] { specimens.Create<Pause>(), $"{Version}/pauses" };
             yield return new object[] { specimens.Create<Error>(), $"{Version}/errors" };
             yield return new object[] { specimens.Create<Pool>(), $"{Version}/pools" };
-            yield return new object[] { specimens.Create<IpPool>(), $"{Version}/pools" };
             yield return new object[] { specimens.Create<PoolIP>(), $"{Version}/poolips" };
-            yield return new object[] { specimens.Create<IpAddress>(), $"{Version}/poolips" };
             yield return new object[] { specimens.Create<Suppression>(), $"{Version}/suppressions" };
             yield return new object[] { specimens.Create<ExternalMTA>(), $"{Version}/externalmtas" };
-            yield return new object[] { specimens.Create<ExternalIp>(), $"{Version}/externalmtas" };
         }
 
         [Theory]
