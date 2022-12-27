@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MailerQ
@@ -61,12 +62,39 @@ namespace MailerQ
             bus.QueueDeclare(name: name, config =>
             {
                 config
-                    .AsDurable(true)
+                    .AsDurable(durable)
                     .WithMessageTtl(new TimeSpan(0, 0, 0, 0, messageTtl))
                     .WithMaxPriority(maxPriority)
                     .WithDeadLetterExchange(new Exchange(deadLetterExchange))
                     .WithDeadLetterRoutingKey(deadLetterRoutingKey);
             });
+        }
+
+        /// <inheritdoc/>
+        public async Task DeclareDeadLetterQueueForPublishAsync(
+            string name,
+            bool addQueueNamePrefix = true,
+            bool durable = true,
+            int messageTtl = 10,
+            int maxPriority = (int)Priority.High,
+            string deadLetterExchange = "",
+            string deadLetterRoutingKey = QueueName.Outbox,
+            CancellationToken cancellationToken = default)
+        {
+            if (addQueueNamePrefix)
+            {
+                name = $"{configuration.QueuesNamePrefix}{name}";
+            }
+
+            await bus.QueueDeclareAsync(name: name, config =>
+            {
+                config
+                    .AsDurable(durable)
+                    .WithMessageTtl(new TimeSpan(0, 0, 0, 0, messageTtl))
+                    .WithMaxPriority(maxPriority)
+                    .WithDeadLetterExchange(new Exchange(deadLetterExchange))
+                    .WithDeadLetterRoutingKey(deadLetterRoutingKey);
+            }, cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -77,10 +105,10 @@ namespace MailerQ
         }
 
         /// <inheritdoc/>
-        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
+        public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox, CancellationToken cancellationToken = default)
         {
             var message = CreateMessage(outgoingMessage);
-            await bus.PublishAsync(Exchange.Default, queueName, false, message);
+            await bus.PublishAsync(Exchange.Default, queueName, false, message, cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -93,11 +121,11 @@ namespace MailerQ
         }
 
         /// <inheritdoc/>
-        public async Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
+        public async Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox, CancellationToken cancellationToken = default)
         {
             foreach (var outgoingMessage in outgoingMessages)
             {
-                await PublishAsync(outgoingMessage, queueName);
+                await PublishAsync(outgoingMessage, queueName, cancellationToken);
             }
         }
 
@@ -131,16 +159,16 @@ namespace MailerQ
         }
 
         /// <inheritdoc/>
-        public IDisposable SubscribeAsync<T>(Func<T, Task> action) where T : OutgoingMessage
+        public Task<IDisposable> SubscribeAsync<T>(Func<T, Task> action, CancellationToken cancellationToken = default) where T : OutgoingMessage
         {
             var queueName = GetQueueName<T>();
-            return SubscribeAsync(action, queueName);
+            return SubscribeAsync(action, queueName, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public IDisposable SubscribeAsync<T>(Func<T, Task> action, string queueName) where T : OutgoingMessage
+        public async Task<IDisposable> SubscribeAsync<T>(Func<T, Task> action, string queueName, CancellationToken cancellationToken = default) where T : OutgoingMessage
         {
-            var queue = bus.QueueDeclare(queueName);
+            var queue = await bus.QueueDeclareAsync(queueName, cancellationToken);
             return bus.Consume(queue, async (body, properties, info) =>
             {
                 var jsonMessage = Encoding.UTF8.GetString(body.Span);
