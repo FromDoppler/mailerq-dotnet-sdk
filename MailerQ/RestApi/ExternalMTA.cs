@@ -31,17 +31,6 @@ namespace MailerQ.RestApi
         NamingStrategyType = typeof(LowercaseNamingStrategy),
         ItemNullValueHandling = NullValueHandling.Ignore
     )]
-    [Obsolete("User ExternalMTA class")]
-    public class ExternalIp : ExternalMTA { }
-
-    /// <summary>
-    /// External MTA.
-    /// Setting to uses IP address that is not local to the server MailerQ is running on.
-    /// </summary>
-    [JsonObject(
-        NamingStrategyType = typeof(LowercaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore
-    )]
     public class ExternalMTA : IRestApiModel
     {
         /// <summary>

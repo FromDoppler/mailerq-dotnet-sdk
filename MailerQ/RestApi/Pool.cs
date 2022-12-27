@@ -24,15 +24,4 @@ namespace MailerQ.RestApi
         /// </summary>
         public string Description { get; set; }
     }
-
-    /// <summary>
-    /// Pool of IPs
-    /// MailerQ offers IP Pools for easy management of your sending IP addresses.
-    /// </summary>
-    [JsonObject(
-        NamingStrategyType = typeof(LowercaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore
-    )]
-    [Obsolete("User Pool class")]
-    public class IpPool : Pool { }
 }

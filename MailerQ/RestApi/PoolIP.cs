@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace MailerQ.RestApi
 {
@@ -25,12 +24,4 @@ namespace MailerQ.RestApi
         [JsonProperty(Required = Required.Always)]
         public string Name { get; set; }
     }
-
-    /// <inheritdoc />
-    [JsonObject(
-        NamingStrategyType = typeof(LowercaseNamingStrategy),
-        ItemNullValueHandling = NullValueHandling.Ignore
-    )]
-    [Obsolete("User PoolIP class")]
-    public class IpAddress : PoolIP { }
 }
