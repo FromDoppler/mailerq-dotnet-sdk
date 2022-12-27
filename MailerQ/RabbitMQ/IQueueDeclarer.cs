@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MailerQ
+namespace MailerQ.RabbitMQ
 {
     /// <summary>
     /// Interfaz to declare queues

@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MailerQ
+namespace MailerQ.RabbitMQ
 {
     /// <summary>
     /// A queue message publisher

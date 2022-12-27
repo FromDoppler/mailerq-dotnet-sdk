@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MailerQ
+namespace MailerQ.RabbitMQ
 {
     /// <summary>
     /// Allow subscribe to a RabbitMQ queue and perform actions when a message arrive
