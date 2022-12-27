@@ -124,7 +124,7 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, (body, properties, info) =>
             {
-                var jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body.Span);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 action.Invoke(resultMessage);
             });
@@ -143,7 +143,7 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, async (body, properties, info) =>
             {
-                var jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body.Span);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 await action.Invoke(resultMessage);
             });
