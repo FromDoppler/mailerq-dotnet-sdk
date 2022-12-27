@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MailerQ
@@ -108,14 +109,14 @@ namespace MailerQ
         }
 
         /// <inheritdoc/>
-        public Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
+        public Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox, CancellationToken cancellationToken = default)
         {
             Publish(outgoingMessage, queueName);
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
-        public Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox)
+        public Task PublishAsync(IEnumerable<OutgoingMessage> outgoingMessages, string queueName = QueueName.Outbox, CancellationToken cancellationToken = default)
         {
             Publish(outgoingMessages, queueName);
             return Task.CompletedTask;
