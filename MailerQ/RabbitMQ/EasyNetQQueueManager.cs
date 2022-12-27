@@ -17,7 +17,7 @@ namespace MailerQ.RabbitMQ
     /// A queue manager
     /// </summary>
     /// <remarks>Implemented with EasyNetQ</remarks>
-    public class QueueManager : IQueuePublisher, IQueueSubscriber, IQueueDeclarer
+    public class EasyNetQQueueManager : IQueuePublisher, IQueueSubscriber, IQueueDeclarer
     {
         private readonly IAdvancedBus bus;
         private readonly MailerQConfiguration configuration;
@@ -26,7 +26,7 @@ namespace MailerQ.RabbitMQ
         /// Initializes a new instance of QueueManager
         /// </summary>
         /// <param name="configuration">The MailerQ configuration</param>
-        public QueueManager(MailerQConfiguration configuration)
+        public EasyNetQQueueManager(MailerQConfiguration configuration)
         {
             this.configuration = configuration;
             var connectionConfiguration = new ConnectionStringParser().Parse(configuration.RabbitConnectionString);
@@ -42,7 +42,7 @@ namespace MailerQ.RabbitMQ
         /// Initializes a new instance of QueueManager
         /// </summary>
         /// <param name="options">The MailerQ configuration as Option pattern</param>
-        public QueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
+        public EasyNetQQueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
 
         /// <inheritdoc/>
         public void DeclareDeadLetterQueueForPublish(
