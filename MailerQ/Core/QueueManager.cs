@@ -73,14 +73,14 @@ namespace MailerQ
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
-            bus.Publish(Exchange.GetDefault(), queueName, false, message);
+            bus.Publish(Exchange.Default, queueName, false, message);
         }
 
         /// <inheritdoc/>
         public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
-            await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
+            await bus.PublishAsync(Exchange.Default, queueName, false, message);
         }
 
         /// <inheritdoc/>
