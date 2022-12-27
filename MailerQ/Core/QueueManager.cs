@@ -73,14 +73,14 @@ namespace MailerQ
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
-            bus.Publish(Exchange.GetDefault(), queueName, false, message);
+            bus.Publish(Exchange.Default, queueName, false, message);
         }
 
         /// <inheritdoc/>
         public async Task PublishAsync(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
-            await bus.PublishAsync(Exchange.GetDefault(), queueName, false, message);
+            await bus.PublishAsync(Exchange.Default, queueName, false, message);
         }
 
         /// <inheritdoc/>
@@ -124,7 +124,7 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, (body, properties, info) =>
             {
-                var jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body.Span);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 action.Invoke(resultMessage);
             });
@@ -143,7 +143,7 @@ namespace MailerQ
             var queue = bus.QueueDeclare(queueName);
             return bus.Consume(queue, async (body, properties, info) =>
             {
-                var jsonMessage = Encoding.UTF8.GetString(body);
+                var jsonMessage = Encoding.UTF8.GetString(body.Span);
                 var resultMessage = JsonConvert.DeserializeObject<T>(jsonMessage);
                 await action.Invoke(resultMessage);
             });
