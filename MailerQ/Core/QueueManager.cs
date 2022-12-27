@@ -71,6 +71,33 @@ namespace MailerQ
         }
 
         /// <inheritdoc/>
+        public async Task DeclareDeadLetterQueueForPublishAsync(
+            string name,
+            bool addQueueNamePrefix = true,
+            bool durable = true,
+            int messageTtl = 10,
+            int maxPriority = (int)Priority.High,
+            string deadLetterExchange = "",
+            string deadLetterRoutingKey = QueueName.Outbox,
+            CancellationToken cancellationToken = default)
+        {
+            if (addQueueNamePrefix)
+            {
+                name = $"{configuration.QueuesNamePrefix}{name}";
+            }
+
+            await bus.QueueDeclareAsync(name: name, config =>
+            {
+                config
+                    .AsDurable(durable)
+                    .WithMessageTtl(new TimeSpan(0, 0, 0, 0, messageTtl))
+                    .WithMaxPriority(maxPriority)
+                    .WithDeadLetterExchange(new Exchange(deadLetterExchange))
+                    .WithDeadLetterRoutingKey(deadLetterRoutingKey);
+            }, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public void Publish(OutgoingMessage outgoingMessage, string queueName = QueueName.Outbox)
         {
             var message = CreateMessage(outgoingMessage);
