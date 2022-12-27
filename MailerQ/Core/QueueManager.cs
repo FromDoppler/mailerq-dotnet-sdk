@@ -62,7 +62,7 @@ namespace MailerQ
             bus.QueueDeclare(name: name, config =>
             {
                 config
-                    .AsDurable(true)
+                    .AsDurable(durable)
                     .WithMessageTtl(new TimeSpan(0, 0, 0, 0, messageTtl))
                     .WithMaxPriority(maxPriority)
                     .WithDeadLetterExchange(new Exchange(deadLetterExchange))
