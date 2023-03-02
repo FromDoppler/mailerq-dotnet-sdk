@@ -5,9 +5,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Authors>Making Sense</Authors>
-    <Company>Making Sense</Company>
-    <Description>MailerQ .Net SDK</Description>
+    <Authors>FromDoppler</Authors>
+    <Company>FromDoppler</Company>
+    <Description>MailerQ .NET SDK</Description>
     <PackageId>MailerQ</PackageId>
     <Product>MailerQ .Net SDK</Product>
     <Version>1.0.0</Version>
