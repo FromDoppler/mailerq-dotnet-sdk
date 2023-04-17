@@ -1,24 +1,23 @@
-
 {
   "envelope": "my-sender-address@my-domain.com",
   "recipient": "info@example.org",
   "mime": "From: my-sender-address@my-domain.com\r\nTo: info@example.org\r\nSubject: ...",
   "key": "message-store-key-where-data-can-be-found",
-  "tags": [ "Customer Name", "Example Campaign" ],
+  "tags": ["Customer Name", "Example Campaign"],
   "keepmime": true,
   "data": {
     "firstname": "Emiel",
     "lastname": "Bruijntjes",
     "email": "emiel.bruijntjes@copernica.com"
   },
-  "ips": [ "231.34.13.156", "231.34.13.158" ],
+  "ips": ["231.34.13.156", "231.34.13.158"],
   "pool": "example-pool",
   "nextattempt": {
     "time": "2019-01-10 00:00:00"
   },
   "maxdelivertime": "2016-02-10 00:00:00",
   "maxattempts": 3,
-  "retries": [ 600, 600, 1800, 3600 ],
+  "retries": [600, 600, 1800, 3600],
   "inlinecss": true,
   "dkim": [
     {
@@ -31,19 +30,19 @@
       "selector": "y",
       "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
       "expire": "2017-01-01 00:00:00",
-      "headers": [ "x-custom-header", "x-other-header" ]
+      "headers": ["x-custom-header", "x-other-header"]
     },
     {
       "domain": "example.com",
       "selector": "x",
       "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
-      "protocols": [ "dkim", "arc" ]
+      "protocols": ["dkim", "arc"]
     },
     {
       "domain": "example.com",
       "selector": "y",
       "key": "-----BEGIN RSA PRIVATE KEY-----\n.....",
-      "protocols": [ "arc" ]
+      "protocols": ["arc"]
     },
     {
       "domain": "example.com",
@@ -78,9 +77,9 @@
     "password": "my-password"
   },
   "headers": {
-    "remove": [ "dummy", "bcc" ],
+    "remove": ["dummy", "bcc"],
     "prepend": {
-      "cc": "cc@ex.com",
+      "cc": "cc@ex.com"
     },
     "replace": {
       "from": "xe@xe.com"

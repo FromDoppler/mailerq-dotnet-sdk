@@ -6,7 +6,7 @@
   "mime": "...",
   "cli": {
     "command": "/usr/bin/mailerq",
-    "arguments": [ "--extract-recipients", "--ignore-dot" ],
+    "arguments": ["--extract-recipients", "--ignore-dot"],
     "user": "john"
   }
 }

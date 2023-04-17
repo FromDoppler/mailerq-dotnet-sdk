@@ -1,0 +1,12 @@
+name: FromDoppler
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  dotnet:
+    name: .NET
+    uses: FromDoppler/.github/.github/workflows/dotnet.yml@main
