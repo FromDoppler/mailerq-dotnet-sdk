@@ -18,7 +18,7 @@
   ],
   "extracted": {
     "from": "my-sender-address@my-domain.com",
-    "to": [ "info@example.org", "other@example.org" ],
+    "to": ["info@example.org", "other@example.org"],
     "subject": "Test Subject",
     "headers": {
       "x-example-property": "some-mime-property"

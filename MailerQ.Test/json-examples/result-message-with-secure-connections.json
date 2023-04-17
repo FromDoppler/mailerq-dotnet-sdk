@@ -18,7 +18,7 @@
         "name": "ECDHE-RSA-AES128-GCM-SHA256",
         "bits": 128,
         "algbits": 128,
-        "version": "TLSv1\/SSLv3",
+        "version": "TLSv1/SSLv3",
         "id": 49199
       },
       "certificate": {
