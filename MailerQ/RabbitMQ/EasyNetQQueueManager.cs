@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace MailerQ.RabbitMQ
 {
     /// <summary>
-    /// A queue manager
+    /// A queue manager implemented with EasyNetQ
     /// </summary>
     /// <remarks>Implemented with EasyNetQ</remarks>
     public class EasyNetQQueueManager : IQueuePublisher, IQueueSubscriber, IQueueDeclarer
@@ -23,7 +23,7 @@ namespace MailerQ.RabbitMQ
         private readonly MailerQConfiguration configuration;
 
         /// <summary>
-        /// Initializes a new instance of QueueManager
+        /// Initializes a new instance of EasyNetQQueueManager
         /// </summary>
         /// <param name="configuration">The MailerQ configuration</param>
         public EasyNetQQueueManager(MailerQConfiguration configuration)
@@ -39,10 +39,28 @@ namespace MailerQ.RabbitMQ
         }
 
         /// <summary>
-        /// Initializes a new instance of QueueManager
+        /// Initializes a new instance of EasyNetQQueueManager
         /// </summary>
         /// <param name="options">The MailerQ configuration as Option pattern</param>
         public EasyNetQQueueManager(IOptions<MailerQConfiguration> options) : this(options.Value) { }
+
+        /// <summary>
+        /// Initializes a new instance of EasyNetQQueueManager
+        /// </summary>
+        /// <param name="options">The MailerQ configuration as Option pattern</param>
+        /// <param name="bus">The EasyNetQ bus to use</param>
+        public EasyNetQQueueManager(IOptions<MailerQConfiguration> options, IBus bus) : this(options, bus.Advanced) { }
+
+        /// <summary>
+        /// Initializes a new instance of EasyNetQQueueManager
+        /// </summary>
+        /// <param name="options">The MailerQ configuration as Option pattern</param>
+        /// <param name="advancedBus">The EasyNetQ advance bus to use</param>
+        public EasyNetQQueueManager(IOptions<MailerQConfiguration> options, IAdvancedBus advancedBus)
+        {
+            configuration = options.Value;
+            bus = advancedBus;
+        }
 
         /// <inheritdoc/>
         public void DeclareDeadLetterQueueForPublish(
