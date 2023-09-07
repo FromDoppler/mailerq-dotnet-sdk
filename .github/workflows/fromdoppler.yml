@@ -8,7 +8,7 @@ on:
 
 jobs:
   dotnet:
-    name: .NET
+    name: Continuous Integration
     uses: FromDoppler/.github/.github/workflows/dotnet.yml@main
   nuget:
     if: ${{ github.event_name == 'push' }}
